@@ -1,0 +1,122 @@
+Аналог	Analog	模拟
+Неизвестен	Unknown	未知
+Групповой	Group call	组呼
+Индивидуальный	Private call	个呼
+Общий вызов	All call	全呼
+Выберите RDT, YAML qdmr, JSON TYT Reader или таблицу CSV.	Choose an RDT, qdmr YAML, TYT Reader JSON or CSV file.	请选择 RDT、qdmr YAML、TYT Reader JSON 或 CSV 文件。
+Компонент чтения вернул неполный ответ USB.	The reader returned an incomplete USB response.	读取组件返回的 USB 响应不完整。
+Компонент чтения вернул неверный формат таблицы Privacy.	The reader returned a Privacy table in an unexpected format.	读取组件返回的加密设置表格式不正确。
+В приложении отсутствует компонент чтения. Пересоберите приложение.	The reader component is missing. Rebuild the app.	缺少读取组件。请重新构建应用。
+Рация не обнаружена. Проверьте USB-кабель и питание рации.	Radio not found. Check the USB cable and make sure the radio is on.	未找到对讲机。请检查 USB 线缆，并确认对讲机已开机。
+Подключите только одну рацию и повторите чтение.	Connect one radio at a time and try again.	请只连接一台对讲机，然后重新读取。
+Ошибка чтения USB. %@	USB read error. %@	USB 读取出错。%@
+Считать данные по USB не удалось.	Could not read data over USB.	无法通过 USB 读取数据。
+Файл не удалось импортировать.	Could not import the file.	无法导入文件。
+Не удалось сохранить копию RDT.	Could not save the RDT copy.	无法保存 RDT 副本。
+Не удалось перенести таблицы в копию шаблона.	Could not transfer the tables to the template copy.	无法将表格写入模板副本。
+Проверьте значения настроек.	Check the settings and try again.	请检查设置值并重试。
+Не удалось открыть шаблон.	Could not open the template.	无法打开模板。
+Не удалось добавить таблицу CSV.	Could not add the CSV table.	无法添加 CSV 表格。
+ — каналы.csv	 — channels.csv	 — 信道.csv
+ — контакты.csv	 — contacts.csv	 — 联系人.csv
+Не удалось подготовить файл экспорта.	Could not prepare the export file.	无法生成导出文件。
+Компонент %@ отсутствует. Пересоберите приложение.	The component %@ is missing. Rebuild the app.	缺少组件 %@。请重新构建应用。
+Для чтения настроек требуется Python 3.	Python 3 is required to read settings.	读取设置需要 Python 3。
+USB-модель %@	USB model %@	USB 型号 %@
+Считано в %@	Read at %@	读取时间 %@
+Файл: %@	File: %@	文件：%@
+Выберите штатный RDT. Редактор создаст черновик со всеми настройками шаблона.	Choose a TYT CPS RDT file. The editor will create a draft with all the template settings.	请选择 TYT CPS 的 RDT 文件。编辑器将使用模板中的全部设置创建草稿。
+Выберите новое имя для копии исходного файла.	Choose a new name for the copy.	请为副本选择新文件名。
+В YAML qdmr сохраняются DMR ID, каналы, контакты, зоны, группы приёма и списки сканирования. Для остальных настроек сохраните также JSON или копию RDT.	qdmr YAML includes the DMR ID, channels, contacts, zones, RX groups and scan lists. Save a JSON or RDT copy to keep the other settings.	qdmr YAML 包含 DMR ID、信道、联系人、区域、接收组和扫描列表。要保留其他设置，请同时保存 JSON 或 RDT 副本。
+JSON сохраняет назначения Privacy каналам. Значения ключей доступны только при просмотре USB-снимка в приложении.	JSON includes channel privacy assignments. Key values are available only while viewing the USB snapshot in the app.	JSON 保存信道的加密分配。密钥值仅在应用内查看 USB 快照时可见。
+Не удалось сохранить JSON. %@	Could not save JSON. %@	无法保存 JSON。%@
+Не удалось открыть файл. %@	Could not open the file. %@	无法打开文件。%@
+Этот JSON не похож на файл настроек TYT Reader.	This JSON file does not appear to contain TYT Reader settings.	此 JSON 文件似乎不包含 TYT Reader 设置。
+Импортированный файл содержит настройки в неожиданном формате.	The imported settings are in an unexpected format.	导入的设置格式异常。
+Ошибка чтения. %@	Read error. %@	读取出错。%@
+TYT · Настройки рации	TYT · Radio Settings	TYT · 对讲机设置
+Сервис	Tools	工具
+Возможности TYT Reader	TYT Reader Feature Guide (Russian)	TYT Reader 功能指南（俄语）
+Экраны Windows CPS и источники	Windows CPS Screens and References (Russian)	Windows CPS 界面与参考资料（俄语）
+Новый кодплаг…	New Codeplug…	新建配置文件…
+Новый из шаблона RDT…	New from RDT Template…	从 RDT 模板新建…
+Открыть файл…	Open File…	打开文件…
+Сохранить JSON…	Save JSON…	保存 JSON…
+Редактировать копию…	Edit a Copy…	编辑副本…
+Экспорт CSV	Export CSV	导出 CSV
+Каналы…	Channels…	信道…
+Контакты…	Contacts…	联系人…
+Экспорт YAML для qdmr…	Export qdmr YAML…	导出 qdmr YAML…
+Печать…	Print…	打印…
+Последовательности DTMF…	DTMF Sequences…	DTMF 序列…
+Basic и Enhanced (USB)…	Basic and Enhanced Privacy (USB)…	基本与增强加密（USB）…
+Считать Universal Privacy по USB…	Read Universal Privacy over USB…	通过 USB 读取通用加密设置…
+По завершении штатного чтения рация перезапустится.	The radio will restart when the read finishes.	读取完成后对讲机将重启。
+Ключи Universal (.dec)…	Universal Privacy Keys (.dec)…	通用加密密钥（.dec）…
+Ключи Basic и Enhanced (.rdt)…	Basic and Enhanced Keys (.rdt)…	基本与增强加密密钥（.rdt）…
+Сервисная калибровка…	Service Calibration…	维修校准…
+Подключите рацию по USB или откройте RDT, YAML, JSON или CSV.	Connect the radio via USB or open an RDT, YAML, JSON or CSV file.	请通过 USB 连接对讲机，或打开 RDT、YAML、JSON 或 CSV 文件。
+Читаю Universal Privacy…	Reading Universal Privacy…	正在读取通用加密设置…
+Считывание…	Reading…	正在读取…
+Считать настройки	Read Settings	读取设置
+Каналы в CSV…	Export Channels to CSV…	将信道导出为 CSV…
+Контакты в CSV…	Export Contacts to CSV…	将联系人导出为 CSV…
+YAML для qdmr…	qdmr YAML…	qdmr YAML…
+Экспорт и печать	Export and Print	导出与打印
+Не распознаны позиции: %@	Unrecognized slots: %@	无法识别的槽位：%@
+Редактировать последовательности…	Edit Sequences…	编辑序列…
+Сохранено: %@	Saved: %@	已保存：%@
+Чтение настроек	Reading settings	正在读取设置
+Чтение Universal Privacy	Reading Universal Privacy	正在读取通用加密设置
+Открытие файла	Opening file	正在打开文件
+Сохранение файла	Saving file	正在保存文件
+Читаю настройки рации…	Reading radio settings…	正在读取对讲机设置…
+Читаю слоты Universal Privacy…	Reading Universal Privacy slots…	正在读取通用加密槽位…
+Открываю файл…	Opening file…	正在打开文件…
+Здесь появятся настройки	Radio settings will appear here	对讲机设置将显示在这里
+№	No.	编号
+Канал	Channel	信道
+Режим	Mode	模式
+RX, МГц	RX, MHz	接收（MHz）
+TX, МГц	TX, MHz	发射（MHz）
+Полоса, кГц	Bandwidth, kHz	带宽（kHz）
+Color Code	Color Code	色码
+Time Slot	Time Slot	时隙
+Каналы рации	Radio channels	对讲机信道
+Сторона %@	Side %@	%@ 侧
+Нет каналов	No channels	无信道
+Позиция	Position	位置
+№ канала	Channel No.	信道编号
+Каналы стороны %@	Side %@ channels	%@ 侧信道
+Зона	Zone	区域
+Нет зон	No zones	无区域
+Нет контактов	No contacts	无联系人
+Имя	Name	名称
+Номер / позывной	Number / Callsign	号码 / 呼号
+Сигнал	Alert	提示音
+Вкл.	On	开启
+Выкл.	Off	关闭
+Тип вызова	Call Type	呼叫类型
+Basic и Enhanced (.rdt)…	Basic and Enhanced Privacy (.rdt)…	基本与增强加密（.rdt）…
+Контакты	Contacts	联系人
+В файле нет этого раздела	This section is missing from the file	文件中没有此部分
+Группа приёма	RX Group	接收组
+Нет групп приёма	No RX groups	无接收组
+В группе нет контактов	This group has no contacts	此组中没有联系人
+№ контакта	Contact No.	联系人编号
+Контакт	Contact	联系人
+Контакт не найден	Contact not found	未找到联系人
+Контакты группы приёма	RX group contacts	接收组联系人
+Выбранный на рации	Selected on the radio	对讲机当前选择
+Канал №%ld не найден	Channel %ld not found	未找到信道 %ld
+Список сканирования	Scan List	扫描列表
+Нет списков сканирования	No scan lists	无扫描列表
+Приоритет 1	Priority 1	优先级 1
+Приоритет 2	Priority 2	优先级 2
+Канал передачи	TX Channel	发射信道
+В списке нет каналов	This list has no channels	此列表中没有信道
+Каналы списка сканирования	Scan list channels	扫描列表信道
+Язык	Language	语言
+Как в macOS	Use macOS Language	跟随 macOS
+Язык изменится при следующем запуске TYT Reader.	TYT Reader will use the selected language the next time it opens.	下次打开 TYT Reader 时将使用所选语言。
+Готово	Done	完成

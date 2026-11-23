@@ -1,0 +1,212 @@
+Каналы	Channels	信道
+Контакты	Contacts	联系人
+Зоны A/B	Zones A/B	区域 A/B
+Группы приёма	RX groups	接收组
+Списки сканирования	Scan lists	扫描列表
+Не удалось открыть настройки в редакторе.	The editor could not open these settings.	编辑器无法打开这些设置。
+В приложении отсутствует описание последовательностей DTMF.	The DTMF sequence definitions are missing from the app.	应用中缺少 DTMF 序列定义。
+Допустимы 0–9, A–D, * и #. «Не считано» означает, что исходное значение неизвестно. Пустое поле очищает позицию.	Use 0–9, A–D, * and #. “Unread” means the original value is unknown. Leave a field blank to clear that slot.	可使用 0–9、A–D、* 和 #。“未读取”表示原始值未知。将字段留空即可清除该位置。
+Для непрочитанной позиции исходное назначение неизвестно. Можно задать его в локальной копии.	The original assignment of an unread slot is unknown. You can set it in the local copy.	未读取位置的原始分配未知，可在本地副本中设置。
+По USB считаны позиции 11–32. Исходные записи 1–10 неизвестны.	Slots 11–32 were read over USB. The original contents of slots 1–10 are unknown.	已通过 USB 读取位置 11–32。位置 1–10 的原始内容未知。
+По USB считаны позиции 1–48. Исходные записи 49–50 неизвестны.	Slots 1–48 were read over USB. The original contents of slots 49–50 are unknown.	已通过 USB 读取位置 1–48。位置 49–50 的原始内容未知。
+Полнота этого раздела в снимке неизвестна. Новая запись будет добавлена в локальную копию.	The snapshot may contain only part of this section. New entries are added to the local copy.	快照可能只包含此部分的部分内容。新记录将添加到本地副本。
+Последовательности DTMF	DTMF sequences	DTMF 序列
+Быстрый доступ (1–6)	One-touch access (1–6)	一键访问（1–6）
+Цифровые клавиши (10 позиций)	Number keys (10 slots)	数字键（10 个位置）
+Шаблоны сообщений	Message templates	短信模板
+Позиционирование	Positioning	定位
+Аварийная сигнализация	Emergency alarms	紧急报警
+Идентификатор DMR	DMR ID	DMR ID
+Выбранный на рации канал	Channel selected on the radio	对讲机当前选定的信道
+Без назначения	Unassigned	未分配
+Название	Name	名称
+№ контакта (0 — без назначения)	Contact number (0 for none)	联系人编号（0 表示未分配）
+Действие	Action	操作
+Не назначено	Unassigned	未分配
+Нет данных	No data	无数据
+Вызов	Call	呼叫
+Сообщение	Message	短信
+Профиль	Profile	配置文件
+Номер Encode (0–32)	Encode slot (0–32)	编码序号（0–32）
+№ контакта	Contact number	联系人编号
+№ шаблона	Template number	模板编号
+Режим	Mode	模式
+Приём, МГц	RX frequency, MHz	接收频率（MHz）
+Передача, МГц	TX frequency, MHz	发射频率（MHz）
+Полоса, кГц	Bandwidth, kHz	带宽（kHz）
+№ списка сканирования	Scan list number	扫描列表编号
+№ контакта передачи	TX contact number	发射联系人编号
+№ группы приёма	RX group number	接收组编号
+Субтон приёма	RX tone	接收亚音
+Субтон передачи	TX tone	发射亚音
+Тип Privacy (0–3)	Privacy type (0–3)	加密类型（0–3）
+Индекс слота Privacy (с нуля)	Privacy slot index (zero-based)	加密槽位索引（从 0 开始）
+Color Code (0–15)	Color code (0–15)	色码（0–15）
+Time Slot (1–2)	Time slot (1–2)	时隙（1–2）
+Вид вызова	Call type	呼叫类型
+Номер DTMF	DTMF number	DTMF 号码
+Позывной	Call sign	呼号
+Звуковое оповещение	Call alert	呼叫提示音
+Вкл.	On	开
+Выкл.	Off	关
+Каналы стороны A	Side A channels	A 侧信道
+Каналы стороны B	Side B channels	B 侧信道
+Номера контактов	Contact numbers	联系人编号
+Номера каналов	Channel numbers	信道编号
+Приоритет 1	Priority 1	优先级 1
+Приоритет 2	Priority 2	优先级 2
+Канал передачи	TX channel	发射信道
+Название системы	System name	系统名称
+Все позиции заняты.	All slots are occupied.	所有位置均已占用。
+Новое сообщение	New message	新短信
+Сначала добавьте цифровой контакт.	Add a digital contact first.	请先添加数字联系人。
+Система %ld	System %ld	系统 %ld
+Новая запись	New entry	新记录
+В буфере нет записи для этого раздела.	The clipboard does not contain a record for this section.	剪贴板中没有适用于此部分的记录。
+Общие параметры принадлежат всем аварийным системам.	All emergency systems share these settings.	这些设置由所有紧急报警系统共用。
+№ %ld · %@. Проверьте значение.	No. %ld · %@. Check the value.	编号 %ld · %@。请检查该值。
+Субтон: введите «Выкл.», частоту CTCSS (например 82,5) или код DCS (например D023N).	Enter Off, a CTCSS frequency (such as 82.5), or a DCS code (such as D023N).	请输入“关”、CTCSS 频率（如 82.5）或 DCS 编码（如 D023N）。
+Неизвестный режим VFO.	Unknown VFO mode.	未知的 VFO 模式。
+Совпадающие номера будут обновлены в черновике. Остальные записи сохранятся.	Matching record numbers will be updated in the draft. Other records will be kept.	草稿中编号相同的记录将被更新，其余记录将保留。
+Некорректный результат импорта CSV.	The CSV import returned invalid data.	CSV 导入结果无效。
+%@. Выберите существующий контакт.	%@. Choose an existing contact.	%@。请选择已有联系人。
+№ %ld, %@: ссылка на отсутствующую запись № %ld. Исправьте ссылку перед сохранением.	No. %ld, %@ refers to missing record %ld. Correct the reference before saving.	编号 %ld 的 %@ 引用了不存在的记录 %ld。请在保存前更正。
+Редактор кодплага	Codeplug editor	写频配置编辑器
+Импорт CSV…	Import CSV…	导入 CSV…
+Раздел	Section	项目
+Найти запись	Find an entry	查找记录
+Копировать запись	Copy entry	复制记录
+Вставить как новую запись	Paste as new entry	粘贴为新记录
+Добавить запись	Add entry	添加记录
+Вставить запись TYT Reader	Paste TYT Reader entry	粘贴 TYT Reader 记录
+Вставить запись	Paste entry	粘贴记录
+Дублировать	Duplicate	创建副本
+Удалить из копии	Remove from copy	从副本中移除
+Введите номера участников через запятую в нужном порядке.	Enter the member numbers in order, separated by commas.	请按所需顺序输入成员编号，并用逗号分隔。
+Служебный профиль CPS	CPS service profile	CPS 专用配置
+Выбрать…	Choose…	选择…
+Выбрать: %@	Choose %@	选择%@
+Сохранена копия DTMF: %@	Saved DTMF copy: %@	已保存 DTMF 副本：%@
+Закрыть	Close	关闭
+Только DTMF в RDT…	Export DTMF only to RDT…	仅将 DTMF 导出到 RDT…
+Сохранить JSON…	Save JSON…	保存 JSON…
+Сохранить копию RDT…	Save RDT copy…	保存 RDT 副本…
+RDT по шаблону…	Create RDT from template…	从模板创建 RDT…
+Закрыть редактор и отбросить изменения?	Close the editor and discard changes?	关闭编辑器并放弃更改？
+Отбросить изменения	Discard changes	放弃更改
+Продолжить редактирование	Keep editing	继续编辑
+Выберите исходный RDT. В новый файл перейдут доступные последовательности DTMF. Непрочитанные позиции и остальные настройки наследуются от выбранного файла.	Choose a source RDT file. Available DTMF sequences will be copied into a new file. Unread slots and other settings will come from the selected file.	请选择源 RDT 文件。可用的 DTMF 序列将复制到新文件，未读取的位置和其他设置沿用所选文件。
+Выберите RDT для новой копии. Из документа переносятся DMR ID, основные поля пяти таблиц и известные последовательности DTMF. Остальные разделы берутся из шаблона.	Choose an RDT template for the new copy. The document supplies the DMR ID, the main fields of the five tables and known DTMF sequences. Other sections come from the template.	请为新副本选择 RDT 模板。DMR ID、五个表的主要字段及已知 DTMF 序列取自当前文档，其他部分沿用模板。
+Настройки	Settings	设置
+%@ — копия.%@	%@ — copy.%@	%@ — 副本.%@
+Выберите новое имя для копии исходного файла.	Choose a new name for the copy.	请为副本选择新文件名。
+Некорректный документ DTMF.	Invalid DTMF document.	DTMF 文档无效。
+Найти номер или название	Find by number or name	按编号或名称查找
+Добавить →	Add →	添加 →
+Назначить →	Assign →	分配 →
+В порядке следования	Selected order	已选顺序
+Назначение	Assignment	分配
+Запись отсутствует	Missing record	记录不存在
+Убрать	Remove	移除
+Выше	Move up	上移
+Ниже	Move down	下移
+Отмена	Cancel	取消
+Применить	Apply	应用
+Сведения о рации	Radio information	对讲机信息
+Общие настройки	General settings	常规设置
+Меню рации	Radio menu	对讲机菜单
+Назначения кнопок	Button assignments	按键分配
+Сигнализация DTMF	DTMF signaling	DTMF 信令
+Позиционирование GPS	GPS positioning	GPS 定位
+Одиночный работник	Lone worker	独自工作
+Таймеры сканирования	Scan timers	扫描定时器
+Модель файла	Model in file	文件中的机型
+Модель USB	USB model	USB 机型
+Идентификация	Identification	标识信息
+Содержимое кодплага	Codeplug contents	写频配置内容
+Зоны	Zones	区域
+Примечания к чтению	Read notes	读取说明
+Данные	Data	数据
+Тип Privacy в записи канала	Channel privacy type	信道加密类型
+Назначенный слот	Assigned slot	已分配槽位
+Разделы CPS	CPS sections	CPS 项目
+Найти в разделе	Search this section	在此项目中搜索
+В открытом источнике нет данных этого раздела.	The open file or snapshot has no data for this section.	当前文件或快照中没有此项目的数据。
+Код %ld	Code %ld	代码 %ld
+CTCSS %.1f Гц	CTCSS %.1f Hz	CTCSS %.1f Hz
+Контакт	Contact	联系人
+Группа приёма	RX group	接收组
+Список сканирования	Scan list	扫描列表
+Тип Privacy (код)	Privacy type (code)	加密类型（代码）
+Слот Privacy	Privacy slot	加密槽位
+Найти канал по номеру или названию	Find a channel by number or name	按编号或名称查找信道
+Параметры канала № %ld	Channel %ld settings	信道 %ld 设置
+№ %ld  %@  ·  %@  ·  RX %@ Гц  ·  TX %@ Гц	No. %ld  %@  ·  %@  ·  RX %@ Hz  ·  TX %@ Hz	编号 %ld  %@  ·  %@  ·  接收 %@ Hz  ·  发射 %@ Hz
+МГц	MHz	MHz
+код CPS	CPS code	CPS 数值
+Частота приёма	RX frequency	接收频率
+Частота передачи	TX frequency	发射频率
+Низкое напряжение приёма	Low RX voltage	接收低电压
+Полное напряжение приёма	Full RX voltage	接收满电电压
+RSSI 1 (−120 дБм)	RSSI 1 (−120 dBm)	RSSI 1（−120 dBm）
+RSSI 4 (−70 дБм)	RSSI 4 (−70 dBm)	RSSI 4（−70 dBm）
+Подстройка частоты	Frequency trim	频率微调
+Мощность передачи · высокая	TX power · high	发射功率 · 高
+Мощность передачи · средняя	TX power · medium	发射功率 · 中
+Мощность передачи · низкая	TX power · low	发射功率 · 低
+Чувствительность приёма	RX sensitivity	接收灵敏度
+Открытие шумоподавителя 9	Squelch 9 open threshold	9 级静噪开启阈值
+Закрытие шумоподавителя 9	Squelch 9 close threshold	9 级静噪关闭阈值
+Открытие шумоподавителя 1	Squelch 1 open threshold	1 级静噪开启阈值
+Закрытие шумоподавителя 1	Squelch 1 close threshold	1 级静噪关闭阈值
+Модуляция CTCSS · 67 Гц	CTCSS modulation · 67 Hz	CTCSS 调制 · 67 Hz
+Модуляция CTCSS · 151,4 Гц	CTCSS modulation · 151.4 Hz	CTCSS 调制 · 151.4 Hz
+Модуляция CTCSS · 254,1 Гц	CTCSS modulation · 254.1 Hz	CTCSS 调制 · 254.1 Hz
+Модуляция DCS	DCS modulation	DCS 调制
+DMR · амплитуда I	DMR · I amplitude	DMR · I 路幅度
+DMR · амплитуда Q	DMR · Q amplitude	DMR · Q 路幅度
+Аналог · амплитуда I	Analog · I amplitude	模拟 · I 路幅度
+Аналог · амплитуда Q	Analog · Q amplitude	模拟 · Q 路幅度
+Модуляция аналогового DTMF	Analog DTMF modulation	模拟 DTMF 调制
+Доля битовых ошибок (BER)	Bit error rate (BER)	误码率（BER）
+Для формата .test CPS 2.42 ожидается файл размером 8192 байта.	A CPS 2.42 .test file must be 8,192 bytes.	CPS 2.42 的 .test 文件大小必须为 8,192 字节。
+%@ · %@, точка %ld.	%@ · %@, point %ld.	%@ · %@，第 %ld 点。
+Введите результат измерения от 0 до 100 %.	Enter a measurement between 0 and 100%.	请输入 0 到 100% 之间的测量结果。
+Введите целый коэффициент от 0 до 255.	Enter a whole number from 0 to 255.	请输入 0 到 255 之间的整数。
+Укажите частоту в МГц с точностью до 0,00001 МГц.	Enter the frequency in MHz, to at most five decimal places.	请输入频率（MHz），最多保留五位小数。
+Неизвестный формат или версия профиля калибровки.	Unknown calibration profile format or version.	未知的校准配置格式或版本。
+В профиле повреждена основа .test.	The .test template in this profile is damaged.	配置中的 .test 模板已损坏。
+Профиль содержит неизвестный параметр или номер точки.	The profile contains an unknown parameter or point number.	配置中包含未知参数或点位编号。
+Выберите исходный файл .test, чтобы сохранить заполненные поля и остальные байты оригинала.	Choose the source .test file to save your edits and preserve the rest of the original file.	请选择源 .test 文件，以保存已填写的字段并保留原文件中的其余数据。
+Выберите JSON профиля калибровки TYT Reader.	Choose a TYT Reader calibration profile JSON file.	请选择 TYT Reader 的校准配置 JSON 文件。
+Откройте .test штатной CPS или JSON профиля калибровки.	Open a CPS .test file or a calibration profile JSON file.	请打开原厂 CPS 的 .test 文件或校准配置 JSON 文件。
+Сервисная калибровка	Service calibration	维修校准
+Новый локальный профиль	New local profile	新建本地配置
+Новый	New	新建
+Открыть профиль…	Open profile…	打开配置…
+Сторона	Side	侧
+Сторона A	Side A	A 侧
+Сторона B	Side B	B 侧
+Результат внешнего измерения BER в процентах. Сохраняется в JSON профиля.	Enter the BER measured with external equipment as a percentage. It is saved in the profile JSON.	请输入外部设备测得的误码率（百分比）。测量结果将保存到配置 JSON。
+Контрольные частоты в МГц. Шаг файла 10 Гц.	Reference frequencies in MHz, in 10 Hz steps.	参考频率以 MHz 为单位，文件步进为 10 Hz。
+Коэффициенты CPS в диапазоне 0–255.	CPS coefficients range from 0 to 255.	CPS 系数范围为 0–255。
+Точка	Point	点位
+Исходное значение	Original value	原始值
+Измерено, %	Measured, %	测量值（%）
+Правка, %@	Edit, %@	修改值（%@）
+Не распознано	Unrecognized	未识别
+Результат	Result	结果
+Без правки	Unchanged	未修改
+%@, точка %ld, %@	%@, point %ld, %@	%@，第 %ld 点，%@
+Сохранить профиль JSON…	Save JSON profile…	保存 JSON 配置…
+Сохранить копию .test…	Save .test copy…	保存 .test 副本…
+Отбросить изменения профиля?	Discard profile changes?	放弃对配置的更改？
+Отбросить	Discard	放弃
+Вернуться	Go back	返回
+Выберите исходный .test для новой копии. В неё перейдут заполненные коэффициенты и частоты.	Choose a source .test file for the new copy. The coefficients and frequencies you entered will be applied to it.	请选择源 .test 文件以创建副本。已填写的系数和频率将应用到新副本。
+Калибровка — копия.test	Calibration — copy.test	校准 — 副本.test
+Калибровка — профиль.json	Calibration — profile.json	校准 — 配置.json
+Файл .test содержит таблицу CPS. Введённые измерения BER сохраняются отдельно в JSON.	The .test file contains the CPS table. BER measurements are saved separately in the JSON profile.	.test 文件包含 CPS 表。输入的误码率测量值另存于 JSON 配置中。
+Сохранено в %@	Saved to %@	已保存到 %@
+кГц	kHz	kHz
+Серийный номер	Serial number	序列号

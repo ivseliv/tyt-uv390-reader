@@ -1,0 +1,606 @@
+Модель	Model	型号
+Диапазон %@ (МГц)	Band %@ (MHz)	频段 %@ (MHz)
+Последнее программирование по кодплагу	Last programmed (codeplug)	上次写频时间（配置文件）
+Версия CPS в кодплаге	CPS version in codeplug	配置文件中的 CPS 版本
+Сведения о рации	Radio information	对讲机信息
+Сведения	Information	信息
+Выкл.	Off	关
+Вкл.	On	开
+Мощность	Power	功率
+Только приём	RX only	仅接收
+Шумоподавитель	Squelch	静噪
+Тайм-аут передачи	Transmit timeout	发射超时
+Пауза после тайм-аута	TX timeout rekey delay	发射超时后恢复延时
+Условие передачи	Admit criteria	发射准入条件
+Автосканирование	Auto scan	自动扫描
+Одиночный работник	Lone worker	独立作业
+Прямая связь	Talkaround	脱网直通
+Опорная частота RX	RX reference frequency	接收参考频率
+Опорная частота TX	TX reference frequency	发射参考频率
+Система тревоги	Emergency system	紧急报警系统
+Подтверждение индивидуального вызова	Private call confirmation	个呼确认
+Подтверждение данных	Data confirmation	数据确认
+Подтверждение тревоги	Emergency acknowledgment	紧急报警确认
+Показ PTT ID	Show PTT ID	显示 PTT ID
+Условие в активном вызове	In-call criteria	通话中发射条件
+Система GPS	GPS system	GPS 系统
+Отправка GPS	Send GPS	发送 GPS 位置
+Приём GPS	Receive GPS	接收 GPS 位置
+Разрешить прерывание	Allow interruption	允许中断
+Ведущая станция DCDM	DCDM leader	DCDM 主站
+Профиль DTMF RX	DTMF RX profile	DTMF 接收配置
+Профиль DTMF TX	DTMF TX profile	DTMF 发射配置
+Маска декодеров DTMF	DTMF decoder mask	DTMF 解码器掩码
+Сигнал завершения передачи	End-of-transmission tone	发射结束音
+259,2 Гц	259.2 Hz	259.2 Hz
+55,2 Гц	55.2 Hz	55.2 Hz
+Код %@	Code %@	代码 %@
+Нельзя менять состав дополнительных полей канала.	The set of additional channel fields cannot be changed.	无法更改信道附加字段的组成。
+Поле «%@» недоступно в этом режиме.	“%@” is unavailable in this mode.	当前模式下无法使用“%@”字段。
+Шумоподавитель DMR	DMR squelch	DMR 静噪
+Подтверждение SMS	SMS confirmation	短信确认
+По умолчанию	Default	默认
+Выбор канала передачи	TX channel selection	发射信道选择
+Формат отчёта GPS	GPS report format	GPS 报告格式
+Автоблокировка клавиатуры	Automatic keypad lock	自动锁键
+Монитор	Monitor	监听
+Заставка	Startup screen	开机画面
+Сигнал разрешения передачи	Talk permit tone	发射许可提示音
+Подсветка	Backlight	背光
+Всегда	Always	始终
+5 с	5 s	5 秒
+10 с	10 s	10 秒
+15 с	15 s	15 秒
+Часовой пояс	Time zone	时区
+Тип	Type	类型
+Режим	Mode	模式
+Мониторинг при тревоге	Emergency monitoring	紧急报警监听
+Удалённый мониторинг	Remote monitor	远程监听
+Удалённое отключение	Remote disable	遥毙
+Аналог	Analog	模拟
+Основной режим	Main mode	主模式
+Сторона A	Side A	A 段
+Сторона B	Side B	B 段
+Шаг	Step	步进
+%@ Гц	%@ Hz	%@ Hz
+Полоса	Bandwidth	带宽
+Профиль	Profile	配置
+Ожидалось целое неотрицательное число.	Expected a nonnegative integer.	请输入非负整数。
+Число выходит за допустимые пределы.	The number is outside the allowed range.	数值超出允许范围。
+Неверная частота в МГц.	Invalid frequency in MHz.	频率无效，单位为 MHz。
+Неверный тип вызова CPS.	Invalid CPS call type.	CPS 呼叫类型无效。
+Неверный режим канала CPS.	Invalid CPS channel mode.	CPS 信道模式无效。
+Отсутствует номер, название или тип записи.	The record number, name or type is missing.	缺少记录编号、名称或类型。
+Недопустимый код звонка контакта.	Invalid contact ring code.	联系人铃声代码无效。
+Неверный код CTCSS/DCS.	Invalid CTCSS/DCS code.	CTCSS/DCS 代码无效。
+Для новой записи отсутствуют исходные колонки CPS. Сохраните документ в JSON.	The new record lacks its original CPS columns. Save the document as JSON.	新记录缺少原始 CPS 列。请将文档保存为 JSON。
+В CSV CPS номер задаётся положением строки. Сохраните разреженную таблицу в JSON.	CPS CSV assigns numbers by row position. Save a table with gaps as JSON.	CPS CSV 根据行位置编号。请将含空号的表保存为 JSON。
+Имя записи CPS должно быть заполнено.	Enter a name for the CPS record.	请输入 CPS 记录名称。
+Этот тип контакта не поддерживается в цифровых контактах CPS.	The CPS digital contacts table does not support this contact type.	CPS 数字联系人表不支持此联系人类型。
+CPS поддерживает каналы FM и DMR.	CPS supports FM and DMR channels.	CPS 支持 FM 和 DMR 信道。
+Шаг частоты TYT CPS составляет 10 Гц.	TYT CPS uses a frequency step of 10 Hz.	TYT CPS 的频率步进为 10 Hz。
+Для DMR необходим таймслот 1 или 2.	DMR requires time slot 1 or 2.	DMR 时隙必须为 1 或 2。
+CSV превышает 32 МБ.	The CSV file exceeds 32 MB.	CSV 文件超过 32 MB。
+Некорректная кодировка CSV.	Invalid CSV encoding.	CSV 文件编码无效。
+CSV содержит нулевые байты.	The CSV file contains null bytes.	CSV 文件包含空字节。
+Неизвестные заголовки CSV. Ожидается таблица каналов или контактов английской TYT CPS либо CSV-отчёт TYT Reader.	Unrecognized CSV headers. Use a channel or contact table from the English TYT CPS or a TYT Reader CSV report.	无法识别 CSV 表头。请使用英文版 TYT CPS 的信道或联系人表，或 TYT Reader 的 CSV 报告。
+Неверное число полей или слишком много записей в строке %@.	Wrong field count or too many entries at row %@.	第 %@ 行的字段数不正确或记录过多。
+Пустое имя или повтор номера записи.	Empty name or duplicate record number.	名称为空或记录编号重复。
+Строка %@: %@	Row %1$@: %2$@	第 %1$@ 行：%2$@
+В JSON отсутствует выбранная таблица.	The selected table is missing from the JSON file.	JSON 文件缺少所选表。
+Неизвестная кодировка исходного CSV.	Unknown encoding of the original CSV file.	原始 CSV 文件的编码未知。
+Повреждённая строка в снимке.	The snapshot contains a damaged row.	快照中有一行已损坏。
+Неверный порядок или номер слота CPS.	Invalid CPS slot number or order.	CPS 槽位编号或顺序无效。
+Можно экспортировать каналы или контакты.	Channels or contacts can be exported.	可以导出信道或联系人。
+Неизвестный размер RDT.	Unrecognized RDT file size.	无法识别 RDT 文件大小。
+Неизвестный заголовок RDT.	Unrecognized RDT header.	无法识别 RDT 文件头。
+Не удалось прочитать таблицу RDT.	Could not read the RDT table.	无法读取 RDT 表。
+Канал №%@: %@	Channel %1$@: %2$@	信道 %1$@：%2$@
+В RDT поддерживаются каналы FM и DMR.	RDT supports FM and DMR channels.	RDT 支持 FM 和 DMR 信道。
+Ожидался снимок настроек.	Expected a settings snapshot.	需要设置快照。
+Не удалось определить таблицу для объединения.	Could not determine which table to merge.	无法确定要合并的表。
+Контакт №%@ не поддерживается в таблице цифровых контактов RDT.	Contact %@ is not supported by the RDT digital contacts table.	RDT 数字联系人表不支持联系人 %@。
+Снимок превышает 128 МБ.	The snapshot exceeds 128 MB.	快照超过 128 MB。
+В записи RDT частота не закодирована числом BCD.	The RDT record does not contain a BCD-encoded frequency.	RDT 记录的频率不是有效的 BCD 编码。
+Изменился набор колонок канала CPS.	The CPS channel columns have changed.	CPS 信道列已更改。
+В колонке «%@» ожидается текст.	Column “%@” expects text.	“%@”列需要文本。
+Частота CPS должна быть задана с шагом 10 Гц.	CPS requires frequencies in 10 Hz steps.	CPS 频率须按 10 Hz 步进设置。
+Неподдерживаемый тон в колонке %@.	Unsupported tone in column %@.	%@ 列中的亚音不受支持。
+Имя канала CPS должно занимать от 1 до 16 кодовых единиц UTF-16.	A CPS channel name must be 1–16 UTF-16 code units long.	CPS 信道名称长度必须为 1–16 个 UTF-16 代码单元。
+Задержка первой цифры, мс	First digit delay, ms	首码延时（毫秒）
+Длительность первой цифры, мс	First digit duration, ms	首码时长（毫秒）
+Длительность цифры, мс	Digit duration, ms	单码时长（毫秒）
+Интервал между цифрами, мс	Interdigit interval, ms	码间间隔（毫秒）
+Длительность * и #, мс	* and # duration, ms	* 和 # 时长（毫秒）
+Длительность клавиши D, мс	D key duration, ms	D 键时长（毫秒）
+Следующая последовательность, с	Next sequence delay, s	下一序列延时（秒）
+Автоматический сброс, с	Auto reset, s	自动复位（秒）
+Самопрослушивание DTMF	DTMF sidetone	DTMF 侧音
+Режим PTT ID	PTT ID mode	PTT ID 模式
+Групповой символ	Group code	组呼码
+Нет	None	无
+Последовательности DTMF	DTMF sequences	DTMF 序列
+Не считано	Not read	未读取
+Служебный профиль CPS	CPS service profile	CPS 服务配置
+Система %@	System %@	系统 %@
+Передача %@	Transmit %@	发射 %@
+Последовательность	Sequence	序列
+Декодер %@	Decoder %@	解码器 %@
+Файл обрывается перед длиной последовательности DTMF.	File ends before the DTMF sequence length.	文件在 DTMF 序列长度字段之前结束。
+Файл обрывается внутри последовательности DTMF.	File ends inside a DTMF sequence.	文件在 DTMF 序列中途结束。
+Файл обрывается перед типом реакции декодера DTMF.	File ends before the DTMF decoder response type.	文件在 DTMF 解码器响应类型字段之前结束。
+Некорректный раздел последовательностей DTMF.	Invalid DTMF sequences section.	DTMF 序列部分无效。
+Некорректная запись DTMF «%@».	Invalid DTMF entry “%@”.	DTMF 记录“%@”无效。
+Некорректное поле «%@» в записи DTMF «%@».	Invalid field “%1$@” in DTMF entry “%2$@”.	DTMF 记录“%2$@”中的字段“%1$@”无效。
+«%@»: код служебного профиля недоступен для правки.	“%@”: the service profile code is read-only.	“%@”的服务配置代码为只读。
+«%@», «%@»: допустимы до 30 символов 0–9, A–D, * и #.	“%1$@”, “%2$@”: enter up to 30 characters using 0–9, A–D, * or #.	“%1$@”中的“%2$@”最多可输入 30 个字符，仅限 0–9、A–D、* 和 #。
+Передача 1	Transmit 1	发射 1
+«Передача 1»: CPS требует непустую первую последовательность.	“Transmit 1”: CPS requires a nonempty first sequence.	“发射 1”：CPS 要求首个序列不能为空。
+«%@»: в исходном RDT позиция относится к служебному профилю.	“%@”: this position belongs to a service profile in the original RDT.	原始 RDT 中的“%@”属于服务配置。
+Файл RDT обрывается внутри последовательности DTMF.	The RDT file ends inside a DTMF sequence.	RDT 文件在 DTMF 序列中途结束。
+Номер Encode	Encode number	编码序号
+«%@»: укажите номер Encode от 0 до 32.	“%@”: enter an encode number from 0 to 32.	“%@”：请输入 0 到 32 之间的编码序号。
+«%@»: последовательность Encode № %@ пуста.	“%1$@”: encode sequence %2$@ is empty.	“%1$@”：编码序列 %2$@ 为空。
+Системы сигнализации DTMF	DTMF signaling systems	DTMF 信令系统
+Изменился состав разделов DTMF.	The set of DTMF sections has changed.	DTMF 配置项组成已更改。
+Неверный раздел DTMF.	Invalid DTMF section.	DTMF 部分无效。
+Неверная структура системы DTMF.	Invalid DTMF system structure.	DTMF 系统结构无效。
+Неверное поле DTMF.	Invalid DTMF field.	DTMF 字段无效。
+«%@»: допустимо %@–%@ с шагом %@.	“%1$@” accepts %2$@–%3$@ in steps of %4$@.	“%1$@”的范围为 %2$@–%3$@，步长为 %4$@。
+«%@»: неизвестное значение.	“%@”: unrecognized value.	“%@”的值无法识别。
+Файл RDT обрывается в разделе DTMF.	The RDT file ends inside the DTMF section.	RDT 文件在 DTMF 部分中途结束。
+Неполный файл RDT.	Incomplete RDT file.	RDT 文件不完整。
+Ожидается значение «Вкл.» или «Выкл.».	Expected On or Off.	应选择“开”或“关”。
+Ожидалось целое число.	Expected an integer.	需要整数。
+Допустимо %@…%@ %@ с шагом %@.	Enter %1$@–%2$@ %3$@ in steps of %4$@.	范围为 %1$@–%2$@ %3$@，步长为 %4$@。
+Неизвестное значение настройки.	Unrecognized setting value.	无法识别设置值。
+Ожидался текст до %@ знаков UTF-16.	Enter up to %@ UTF-16 code units.	最多可输入 %@ 个 UTF-16 代码单元。
+Укажите номер из списка.	Select a number from the list.	请从列表中选择编号。
+Такой записи нет в выбранном списке.	The selected list does not contain this entry.	所选列表中没有此记录。
+Индикатор LED	LED indicator	LED 指示灯
+Энергосбережение при приёме	RX battery saver	接收省电
+Преамбула пробуждения	Wake-up preamble	唤醒前导码
+Все звуки отключены	All tones muted	关闭全部提示音
+Сигнал свободного канала	Channel free tone	信道空闲提示音
+Озвучивание каналов	Channel announcements	信道语音播报
+Звук клавиш	Keypad tones	按键音
+Групповые вызовы	Group calls	组呼
+Индивидуальные вызовы	Private calls	个呼
+Общая зона	Public zone	公共区域
+Редактирование Radio ID на рации	Edit Radio ID on radio	允许在对讲机上编辑 Radio ID
+Блокировка передней клавиатуры	Front keypad lock	前面板键盘锁定
+Озвучивание при включении	Power-on announcement	开机语音提示
+Чувствительность VOX	VOX sensitivity	声控发射灵敏度
+Преамбула передачи	TX preamble	发射前导码
+мс	ms	毫秒
+Удержание группового вызова	Group call hang time	组呼保持时间
+Удержание индивидуального вызова	Private call hang time	个呼保持时间
+Предупреждение о разряде	Low battery warning	低电量提醒
+с	s	秒
+Задержка канала	Channel hang time	信道保持时间
+Имя рации	Radio name	对讲机名称
+Строка 1	Line 1	第 1 行
+Строка 2	Line 2	第 2 行
+DMR ID в основной таблице отличается.	The DMR ID differs from the one in the main table.	DMR ID 与主表中的 ID 不一致。
+Ожидался часовой пояс от UTC-12 до UTC+12.	Expected a time zone from UTC−12 to UTC+12.	时区必须在 UTC−12 至 UTC+12 之间。
+Усиление микрофона (код CPS)	Microphone gain (CPS code)	麦克风增益（CPS 代码）
+Оповещение о вызове	Call alert	呼叫提示
+Непрерывно	Continuous	连续
+Сведения доступны только для просмотра.	This information is read-only.	此信息为只读。
+Время показа	Menu display time	菜单显示时间
+Без ограничения	Unlimited	无限制
+Долгое нажатие	Long press	长按
+Время для ответа	Response time	响应时间
+Интервал напоминания	Reminder interval	提醒间隔
+мин	min	分钟
+Удержание на канале	Channel hang time	信道保持时间
+Удержание сигнала	Signal hold time	信号保持时间
+Опрос приоритетного канала	Priority channel sampling	优先信道采样
+Режимы дисплея	Display modes	显示模式
+Гц	Hz	Hz
+Номер записи должен быть в диапазоне 1–%@.	The entry number must be between 1 and %@.	记录编号必须在 1 到 %@ 之间。
+Неизвестное поле VFO.	Unknown VFO field.	未知的 VFO 字段。
+Период	Interval	周期
+Контакт	Contact	联系人
+Канал	Channel	信道
+Не задан	Not set	未设置
+Выбранный канал	Selected channel	当前所选信道
+Неизвестное поле GPS.	Unknown GPS field.	未知的 GPS 字段。
+Общие параметры	General parameters	通用参数
+Длительность мониторинга	Monitoring duration	监听时长
+Лимит сообщений	Message limit	消息数量限制
+Повторы без ожидания	Impolite retries	强行发送重试次数
+Повторы с ожиданием	Polite retries	等待空闲后重试次数
+Открытый микрофон	Hot mic	紧急热麦
+Это поле доступно только для просмотра.	This field is read-only.	此字段为只读。
+Шаблоны сообщений	Message templates	消息模板
+Изменилась структура раздела шаблонов CPS.	The CPS template section structure has changed.	CPS 模板部分的结构已更改。
+Ошибка в записи шаблона SMS.	Invalid SMS template entry.	短信模板记录无效。
+Имена слотов SMS должны иметь формат «Шаблон N», N = 1…50.	SMS slot names must use “Шаблон N” with N from 1 to 50.	短信槽位名称须为“Шаблон N”，其中 N 为 1 至 50。
+Текст	Text	文本
+Шаблон %@: требуется уникальный слот с одним непустым полем «Текст».	Template %@ requires a unique slot with one nonempty Text field.	模板 %@ 需要独立的槽位，其中必须有一个非空的文本字段。
+Ожидался список дополнительных настроек.	Expected a list of additional settings.	需要附加设置列表。
+Недопустимый или повторный раздел CPS.	Invalid or duplicate CPS section.	CPS 部分无效或重复。
+Некорректная строка таймеров сканирования.	Invalid scan timers row.	扫描定时器行无效。
+Неверная структура раздела «%@».	Invalid structure for section “%@”.	“%@”部分的结构无效。
+Повторная или недопустимая запись «%@».	Duplicate or invalid entry “%@”.	记录“%@”重复或无效。
+В записи отсутствуют поля.	The entry contains no fields.	记录中没有字段。
+Некорректное поле в «%@».	Invalid field in “%@”.	“%@”中的字段无效。
+%@ № %@ используется каналом № %@.	%1$@ %2$@ is used by channel %3$@.	信道 %3$@ 正在使用 %1$@ %2$@。
+«%@»: требуются поля %@.	“%1$@” requires the following fields: %2$@.	“%1$@”需要以下字段：%2$@。
+Укажите печатное имя аварийной системы.	Enter a printable name for the emergency system.	请输入可打印的紧急报警系统名称。
+Одна кнопка быстрого доступа назначена одновременно для DMR и DTMF.	A one-touch button is assigned to both DMR and DTMF.	同一个快捷键同时分配给了 DMR 和 DTMF。
+«%@»: укажите профиль DTMF-1…DTMF-4.	“%@”: select a profile from DTMF-1 to DTMF-4.	“%@”：请选择 DTMF-1 至 DTMF-4 中的配置。
+Действие	Action	操作
+Сообщение	Message	消息
+Шаблон	Template	模板
+«%@»: для вызова нужен контакт, для сообщения — также шаблон.	“%@”: a call needs a contact. A message also needs a template.	“%@”：呼叫需要联系人，发送消息还需要模板。
+Вызов	Call	呼叫
+«%@»: не существует шаблона № %@.	“%1$@”: template %2$@ does not exist.	“%1$@”：模板 %2$@ 不存在。
+Цифровой клавише можно назначить один контакт.	A number key can have one contact.	每个数字键只能分配一个联系人。
+Группа приёма	RX group	接收组
+Набор полей VFO не соответствует выбранному аналоговому или цифровому режиму.	The VFO fields do not match the selected analog or digital mode.	VFO 字段与所选模拟或数字模式不匹配。
+Шаблон %@ используется в «%@».	Template %1$@ is used by “%2$@”.	“%2$@”正在使用模板 %1$@。
+Менять набор дополнительных разделов CPS в RDT нельзя.	The set of additional CPS sections in an RDT file cannot be changed.	无法更改 RDT 文件中附加 CPS 部分的组成。
+Структура раздела «%@» изменилась.	The structure of section “%@” has changed.	“%@”部分的结构已更改。
+Строка таймеров не соответствует списку сканирования.	The timer row does not match its scan list.	定时器行与对应的扫描列表不匹配。
+Название строки таймера должно совпадать с названием списка.	The timer row name must match the scan list name.	定时器行名称必须与扫描列表名称一致。
+500 мс	500 ms	500 毫秒
+2000 мс	2000 ms	2000 毫秒
+В разделе «%@» изменился набор записей.	The entries in section “%@” have changed.	“%@”部分的记录组成已更改。
+Имя записи «%@» доступно только для просмотра.	The name of entry “%@” is read-only.	记录“%@”的名称为只读。
+Изменился набор полей записи «%@».	The fields of entry “%@” have changed.	记录“%@”的字段组成已更改。
+Некорректная структура поля «%@».	Invalid structure for field “%@”.	字段“%@”的结构无效。
+«%@», поле «%@»: %@	“%1$@”, field “%2$@”: %3$@	“%1$@”的字段“%2$@”：%3$@
+После сохранения изменился набор записей в разделе %@.	The entries in section %@ changed after saving.	保存后 %@ 部分的记录发生了变化。
+После сохранения состав или текст шаблонов SMS не совпал.	The saved SMS templates differ in content or membership.	保存后短信模板的内容或记录组成不一致。
+После сохранения не совпало поле «%@» в «%@».	Saved field “%1$@” in “%2$@” does not match.	保存后“%2$@”中的字段“%1$@”不匹配。
+Общие настройки	General settings	通用设置
+Меню рации	Radio menu	对讲机菜单
+Кнопки	Buttons	按键
+Позиционирование	Positioning	定位
+Аварийная сигнализация	Emergency alarm	紧急报警
+Таймеры сканирования	Scan timers	扫描定时器
+Сообщения	Messages	消息
+Редактирование контактов	Edit contacts	编辑联系人
+Ручной набор	Manual dial	手动拨号
+Проверка рации	Radio check	对讲机检查
+Включение рации	Radio enable	遥毙恢复
+Отключение рации	Radio disable	遥毙
+Сканирование	Scan	扫描
+Редактирование списка	Edit list	编辑列表
+Пропущенные вызовы	Missed calls	未接来电
+Принятые вызовы	Answered calls	已接来电
+Исходящие вызовы	Outgoing calls	已拨电话
+Сигналы	Tones	提示音
+Блокировка клавиатуры	Keypad lock	键盘锁定
+Режим экрана	Display mode	显示模式
+Программирование	Programming	写频
+Запись	Recording	录音
+Приём групповых вызовов	Receive group calls	接收组呼
+Приём индивидуальных вызовов	Receive private calls	接收个呼
+Таймер меню	Menu timer	菜单定时器
+Режим передачи	Transmit mode	发射模式
+Настройки зон	Zone settings	区域设置
+Новая зона	New zone	新建区域
+Редактирование зон	Edit zones	编辑区域
+Новый список сканирования	New scan list	新建扫描列表
+Не назначено	Unassigned	未分配
+Все звуковые сигналы	All tones	全部提示音
+Включить тревогу	Activate alarm	启动报警
+Отключить тревогу	Cancel alarm	取消报警
+Пропустить канал при сканировании	Nuisance channel delete	扫描时临时跳过信道
+Ретранслятор / прямая связь	Repeater / talkaround	中继 / 脱网直通
+Режим Privacy	Privacy mode	加密模式
+Следующая зона	Next zone	下一区域
+Переключить зону	Toggle zone	切换区域
+Заряд батареи	Battery level	电池电量
+Индивидуальный вызов	Private call	个呼
+Воспроизведение	Playback	播放
+Удаление записей	Delete recordings	删除录音
+Тон 1750 Гц	1750 Hz tone	1750 Hz 单音
+Сторона A/B	A/B side	A/B 段
+Правая клавиша	Right key	右键
+Левая клавиша	Left key	左键
+Предыдущая зона	Previous zone	上一区域
+Быстрый доступ %@	One-touch access %@	一键呼叫 %@
+Кнопка 1 · короткое нажатие	Side button 1 · short press	侧键 1 · 短按
+Кнопка 1 · долгое нажатие	Side button 1 · long press	侧键 1 · 长按
+Кнопка 2 · короткое нажатие	Side button 2 · short press	侧键 2 · 短按
+Кнопка 2 · долгое нажатие	Side button 2 · long press	侧键 2 · 长按
+Последний канал вызова	Last called channel	上次呼叫信道
+Последний канал вызова и ручной выбор	Last called channel and manual selection	上次呼叫信道及手动选择
+Назначенный канал	Designated channel	指定信道
+Назначенный канал и ручной выбор	Designated channel and manual selection	指定信道及手动选择
+Обычный	Normal	常规
+Вручную	Manual	手动
+Логотип	Logo	徽标
+Без звука	Silent	静音
+Открытый шумоподавитель	Open squelch	打开静噪
+DMR и аналог	DMR and analog	DMR 和模拟
+Отключена	Disabled	禁用
+Обычная	Regular	常规
+Тихая	Silent	静默
+Тихая с голосом	Silent with voice	静默带语音
+Тревога	Alarm	报警
+Тревога и вызов	Alarm and call	报警并呼叫
+Тревога с голосом	Alarm with voice	语音报警
+Частота	Frequency	频率
+Каналы	Channels	信道
+12,5 кГц	12.5 kHz	12.5 kHz
+20 кГц	20 kHz	20 kHz
+25 кГц	25 kHz	25 kHz
+Список сканирования	Scan list	扫描列表
+Субтон приёма	RX tone	接收亚音
+Субтон передачи	TX tone	发射亚音
+Код 0x%@	Code 0x%@	代码 0x%@
+Укажите «Выкл.», частоту CTCSS в Гц или код DCS, например D023N.	Enter Off, a CTCSS frequency in Hz, or a DCS code such as D023N.	请选择“关”，或输入 CTCSS 频率（Hz）或 DCS 代码（如 D023N）。
+Файл обрывается внутри дополнительных настроек CPS.	The file ends inside the additional CPS settings.	文件在 CPS 附加设置中途结束。
+Рация	Radio	对讲机
+%@ мс	%@ ms	%@ 毫秒
+%@ с	%@ s	%@ 秒
+Таймеры	Timers	定时器
+%@ мин	%@ min	%@ 分钟
+Дополнительно	Advanced	高级
+Дополнительные идентификаторы	Additional IDs	附加 ID
+Пункты меню	Menu items	菜单项
+Боковые кнопки	Side buttons	侧键
+Длительность	Duration	时长
+Цифровая клавиша · позиция %@	Number key · position %@	数字键 · 位置 %@
+Шаблон %@	Template %@	模板 %@
+Основные	Basic	基本
+Усиление микрофона	Microphone gain	麦克风增益
+Озвучивание	Voice announcements	语音播报
+Начальный канал	Startup channel	开机信道
+Аудио	Audio	音频
+Усиление FM	FM gain	FM 增益
+Усиление M17	M17 gain	M17 增益
+Громкость динамика	Speaker volume	扬声器音量
+Громкость наушников	Headphone volume	耳机音量
+Задержка VOX	VOX delay	声控发射延时
+Тоны	Tones	提示音
+Сигнал клавиш	Key tone	按键音
+Сигнал SMS	SMS tone	短信提示音
+Сигнал вызова	Call tone	呼叫提示音
+Сигнал включения	Power-on tone	开机提示音
+Разрешение передачи	Talk permit	发射许可
+Начало вызова	Call start	呼叫开始
+Конец вызова	Call end	呼叫结束
+Канал свободен	Channel idle	信道空闲
+Передача Talker Alias	Send Talker Alias	发送讲话方别名
+Кодировка Talker Alias	Talker Alias encoding	讲话方别名编码
+Параметры TYT	TYT settings	TYT 设置
+Все LED отключены	All LEDs disabled	关闭所有 LED
+Энергосбережение	Battery saver	省电模式
+Предупреждение о разряде, с	Low battery warning, s	低电量提醒（秒）
+Непрерывный сигнал вызова	Continuous call alert tone	连续呼叫提示音
+Длительность сигнала, с	Tone duration, s	提示音时长（秒）
+Постоянная подсветка	Backlight always on	背光常亮
+Длительность подсветки, с	Backlight duration, s	背光时长（秒）
+Ручная блокировка клавиатуры	Manual keypad lock	手动锁键
+Блокировка клавиатуры, с	Keypad lock delay, s	键盘锁定延时（秒）
+Задержка канала, мс	Channel hang time, ms	信道保持时间（毫秒）
+Идентификатор DMR по умолчанию	Default DMR ID	默认 DMR ID
+Идентификатор DMR	DMR ID	DMR ID
+Имя	Name	名称
+Время показа, с	Menu display time, s	菜单显示时间（秒）
+Неограниченное время	No time limit	无时间限制
+Назначения	Assignments	按键分配
+Кнопка 3 · короткое нажатие	Side button 3 · short press	侧键 3 · 短按
+Кнопка 3 · долгое нажатие	Side button 3 · long press	侧键 3 · 长按
+Программируемая 1 · короткое	Programmable button 1 · short press	可编程键 1 · 短按
+Программируемая 1 · долгое	Programmable button 1 · long press	可编程键 1 · 长按
+Программируемая 2 · короткое	Programmable button 2 · short press	可编程键 2 · 短按
+Программируемая 2 · долгое	Programmable button 2 · long press	可编程键 2 · 长按
+Долгое нажатие, мс	Long press, ms	长按时长（毫秒）
+Формат сообщений	Message format	消息格式
+Название	Name	名称
+Системы	Systems	系统
+Единицы измерения	Units	单位
+Фиксированная позиция	Fixed position	固定位置
+Позиция	Position	位置
+Отправитель	Sender	发送方
+Получатель	Recipient	接收方
+Путь APRS	APRS path	APRS 路径
+Значок	Icon	图标
+Время для ответа, мин	Response time, min	响应时间（分钟）
+Интервал напоминания, с	Reminder interval, s	提醒间隔（秒）
+Канальный режим	Channel mode	信道模式
+Канальный режим A	Channel mode A	A 段信道模式
+Канальный режим B	Channel mode B	B 段信道模式
+Контакт DTMF	DTMF contact	DTMF 联系人
+Номер	Number	号码
+DMR, мс	DMR, ms	DMR（毫秒）
+Аналог, мс	Analog, ms	模拟（毫秒）
+Удержание сигнала, мс	Signal hold time, ms	信号保持时间（毫秒）
+Опрос приоритетного канала, мс	Priority channel sampling, ms	优先信道采样（毫秒）
+Зона	Zone	区域
+%@ должен быть целым числом от %@ до %@.	%1$@ must be an integer between %2$@ and %3$@.	%1$@ 必须是 %2$@ 到 %3$@ 之间的整数。
+Поле %@ должно содержать список.	Field %@ must contain a list.	字段 %@ 必须包含列表。
+%@ содержит неизвестный код субтона 0x%@.	%1$@ contains unknown tone code 0x%2$@.	%1$@ 包含未知的亚音代码 0x%2$@。
+%@ без имени в таблице %@.	An unnamed %1$@ was found in table %2$@.	表 %2$@ 中有未命名的 %1$@。
+%@, номер	%@, number	%@，编号
+%@ № %@ встречается дважды.	%1$@ %2$@ occurs twice.	%1$@ %2$@ 出现了两次。
+%@: отсутствует запись «%@» № %@.	%1$@: entry “%2$@” %3$@ is missing.	%1$@：缺少记录“%2$@” %3$@。
+%@: «%@» № %@ имеет несовместимый тип.	%1$@: “%2$@” %3$@ has an incompatible type.	%1$@：“%2$@” %3$@ 的类型不兼容。
+Несколько записей radioIDs содержат DMR ID %@. Снимок не позволяет восстановить ссылки между одноимёнными номерами.	Several radioIDs entries contain DMR ID %@. The snapshot cannot disambiguate references to entries with the same number.	radioIDs 中的多条记录使用 DMR ID %@。无法从快照确定引用指向哪条同号记录。
+В JSON отсутствуют таблицы TYT Reader.	The JSON file does not contain TYT Reader tables.	JSON 文件中没有 TYT Reader 表。
+%@: некорректное значение сигнала вызова.	%@: invalid call tone value.	%@：呼叫提示音值无效。
+%@: поддерживаются контакты DMR и DTMF.	%@: DMR and DTMF contacts are supported.	%@：支持 DMR 和 DTMF 联系人。
+%@: поддерживаются каналы FM и DMR.	%@: FM and DMR channels are supported.	%@：支持 FM 和 DMR 信道。
+%@: qdmr поддерживает полосы FM 12,5 и 25 кГц.	%@: qdmr supports FM bandwidths of 12.5 and 25 kHz.	%@：qdmr 支持 12.5 和 25 kHz 的 FM 带宽。
+%@: настроен режим Privacy. Публичный YAML не содержит параметров ключа.	%@: Privacy is enabled. Public YAML does not contain the key settings.	%@：已启用加密。公开 YAML 格式不含密钥参数。
+%@: отсутствует DMR ID станции по умолчанию.	%@: the default radio DMR ID is missing.	%@：缺少默认对讲机 DMR ID。
+Снимок превышает 64 МиБ.	The snapshot exceeds 64 MiB.	快照超过 64 MiB。
+Экспорт превысил размер YAML 32 МиБ.	YAML output exceeds 32 MiB.	导出的 YAML 超过 32 MiB。
+Экспорт YAML не выполнен: %@	YAML export failed: %@	YAML 导出失败：%@
+Слишком глубокая вложенность YAML.	YAML nesting is too deep.	YAML 嵌套过深。
+Циклическая ссылка YAML.	Cyclic YAML reference.	YAML 引用形成循环。
+Объём данных YAML после раскрытия ссылок слишком велик.	The expanded YAML data is too large.	展开引用后的 YAML 数据过大。
+Недопустимое или повторное имя поля YAML в строке %@.	Invalid or duplicate YAML field name on line %@.	第 %@ 行的 YAML 字段名无效或重复。
+Некорректный тег qdmr в строке %@.	Invalid qdmr tag on line %@.	第 %@ 行的 qdmr 标签无效。
+В поле %@ ожидалась строка.	Expected a string in field %@.	字段 %@ 需要字符串。
+Недопустимое значение %@ в YAML.	Invalid YAML value for %@.	%@ 的 YAML 值无效。
+Некорректная частота в поле %@.	Invalid frequency in field %@.	字段 %@ 中的频率无效。
+Слишком большая частота в поле %@.	Frequency in field %@ is too high.	字段 %@ 中的频率过高。
+Некорректный субтон в поле %@.	Invalid tone in field %@.	字段 %@ 中的亚音无效。
+Ожидалась запись с типом в %@, позиция %@.	Expected a typed record in %1$@ at position %2$@.	%1$@ 的第 %2$@ 项需要带类型的记录。
+Неизвестный тип записи в %@, позиция %@.	Unknown entry type in %1$@ at position %2$@.	%1$@ 的第 %2$@ 项具有未知的记录类型。
+Некорректная запись в %@, позиция %@.	Invalid entry in %1$@ at position %2$@.	%1$@ 的第 %2$@ 项无效。
+Пустой или повторный ID в %@, позиция %@.	Empty or duplicate ID in %1$@ at position %2$@.	%1$@ 的第 %2$@ 项 ID 为空或重复。
+Ссылка в поле %@ не соответствует ни одной записи.	The reference in field %@ does not match any entry.	字段 %@ 的引用未匹配到任何记录。
+Запись, указанная в поле %@, имеет другой тип.	The entry referenced by field %@ has a different type.	字段 %@ 引用的记录类型不符。
+В файле отсутствуют разделы кодплага qdmr.	The file contains no qdmr codeplug sections.	文件不含 qdmr 配置部分。
+Некорректный раздел settings.	Invalid settings section.	settings 部分无效。
+Поле defaultID должно ссылаться на идентификатор DMR.	The defaultID field must reference a DMR ID.	defaultID 字段必须引用 DMR ID。
+Неизвестный тип вызова в контакте DMR.	Unknown call type in a DMR contact.	DMR 联系人的呼叫类型未知。
+Неизвестное значение timeSlot.	Unrecognized timeSlot value.	无法识别 timeSlot 值。
+Неизвестная полоса аналогового канала.	Unknown analog channel bandwidth.	未知的模拟信道带宽。
+Файл YAML превышает 32 МиБ.	The YAML file exceeds 32 MiB.	YAML 文件超过 32 MiB。
+Неизвестный размер RDT. Для TYT MD-UV380/390 ожидается 852 533 байта.	Unrecognized RDT size. TYT MD-UV380/390 requires 852,533 bytes.	RDT 文件大小无法识别。TYT MD-UV380/390 需要 852,533 字节。
+Этот RDT не содержит заголовок TYT MD-UV380 или MD-UV390.	This RDT file lacks a TYT MD-UV380 or MD-UV390 header.	此 RDT 文件缺少 TYT MD-UV380 或 MD-UV390 文件头。
+Файл RDT обрывается внутри настроек.	The RDT file ends inside the settings data.	RDT 文件在设置数据中途结束。
+Запрошенная область отсутствует в разметке RDT.	The requested region is missing from the RDT layout.	RDT 布局中没有请求的区域。
+Поддерживаются файлы TYT CPS (.rdt) и qdmr (.yaml, .yml).	TYT CPS (.rdt) and qdmr (.yaml, .yml) files are supported.	支持 TYT CPS (.rdt) 和 qdmr (.yaml、.yml) 文件。
+Укажите один файл .rdt, .yaml или .yml.	Specify one .rdt, .yaml or .yml file.	请指定一个 .rdt、.yaml 或 .yml 文件。
+%@: требуется целое число от %@ до %@.	%1$@: enter an integer from %2$@ to %3$@.	%1$@：请输入从 %2$@ 到 %3$@ 的整数。
+Таблица %@ должна содержать список записей.	Table %@ must contain a list of records.	表 %@ 必须包含记录列表。
+Недопустимая строка в %@.	Invalid row in %@.	%@ 中的行无效。
+В %@ повторяется № %@.	%1$@ contains duplicate index %2$@.	%1$@ 中的编号 %2$@ 重复。
+Некорректный список разделов CPS.	Invalid list of CPS sections.	CPS 部分列表无效。
+Некорректный или повторный раздел CPS.	Invalid or duplicate CPS section.	CPS 部分无效或重复。
+Некорректная строка раздела CPS.	Invalid CPS section row.	CPS 部分的行无效。
+%@, %@: нет подходящей записи № %@ в %@.	%1$@, %2$@: no matching entry %3$@ in %4$@.	%1$@，%2$@：%4$@ 中没有匹配的记录 %3$@。
+%@: укажите имя.	%@: enter a name.	%@：请输入名称。
+%@: неизвестный режим.	%@: unknown mode.	%@：未知模式。
+%@: неизвестный тип контакта.	%@: unknown contact type.	%@：未知联系人类型。
+%@: некорректный номер DTMF.	%@: invalid DTMF number.	%@：DTMF 号码无效。
+%@: %@ должно содержать список.	%1$@: %2$@ must contain a list.	%1$@：%2$@ 必须包含列表。
+%@: недопустимый список каналов.	%@: invalid channel list.	%@：信道列表无效。
+В разделе общих настроек указан некорректный DMR ID.	General settings contain an invalid DMR ID.	通用设置中的 DMR ID 无效。
+DMR ID в основных и дополнительных настройках различается.	The DMR IDs in the main and additional settings differ.	主要设置和附加设置中的 DMR ID 不同。
+«%@», %@: укажите номер записи.	“%1$@”, %2$@: enter a record number.	“%1$@”，%2$@：请输入记录编号。
+«%@», %@: отсутствует № %@.	“%1$@”, %2$@: entry %3$@ is missing.	“%1$@”，%2$@：缺少记录 %3$@。
+«%@», %@: № %@ несовместим с цифровым режимом.	“%1$@”, %2$@: entry %3$@ is incompatible with digital mode.	“%1$@”，%2$@：记录 %3$@ 与数字模式不兼容。
+«%@»: отсутствует шаблон № %@.	“%1$@”: template %2$@ is missing.	“%1$@”：缺少模板 %2$@。
+Меняйте состав контактов DTMF в основной таблице контактов.	Edit DTMF contact membership in the main contacts table.	请在主联系人表中添加或移除 DTMF 联系人。
+Контакт DTMF: «%@» изменено по-разному в двух разделах.	DTMF contact: “%@” was edited differently in two sections.	DTMF 联系人：“%@”在两个部分中被改为了不同的值。
+Ожидаются исходный и изменённый отчёты.	Expected the original and edited reports.	需要原始报告及修改后的报告。
+Имя должно содержать печатные символы.	The name must contain printable characters.	名称必须包含可打印字符。
+Имя длиннее 16 кодовых единиц UTF-16.	The name exceeds 16 UTF-16 code units.	名称超过 16 个 UTF-16 代码单元。
+Частота, Гц	Frequency, Hz	频率 (Hz)
+Формат частоты TYT поддерживает шаг 10 Гц.	TYT uses a frequency step of 10 Hz.	TYT 频率须按 10 Hz 步进设置。
+Код тона	Tone code	亚音代码
+Некорректный двоично-десятичный код DCS.	Invalid BCD-encoded DCS code.	DCS 的 BCD 编码无效。
+Некорректный двоично-десятичный код CTCSS.	Invalid BCD-encoded CTCSS code.	CTCSS 的 BCD 编码无效。
+Отсутствует таблица %@.	Missing table %@.	缺少表 %@。
+Ошибочная строка в %@.	Invalid row in %@.	%@ 中的行无效。
+Повторяется номер %@ в %@.	Duplicate number %1$@ in %2$@.	%2$@ 中的编号 %1$@ 重复。
+Сторона %@ должна содержать ссылки на каналы.	Side %@ must contain channel references.	%@ 段必须包含信道引用。
+Не удалось прочитать целую запись RDT.	Could not read a complete RDT record.	无法读取完整的 RDT 记录。
+В списке должно быть не более %@ участников.	A list can contain at most %@ members.	列表最多可包含 %@ 个成员。
+Номер участника	Member number	成员编号
+Список содержит повторяющиеся номера участников.	The list contains duplicate member numbers.	列表包含重复的成员编号。
+В RDT поддерживаются режимы analog и DMR.	RDT supports analog and DMR modes.	RDT 支持模拟和 DMR 模式。
+Конфликт при удалении %@ №%@: исходная запись изменилась.	Cannot delete %1$@ %2$@: the original record has changed.	无法删除 %1$@ %2$@：原始记录已更改。
+Ячейка %@ №%@ уже занята в исходном файле.	Slot %1$@ %2$@ is already occupied in the source file.	源文件中的槽位 %1$@ %2$@ 已被占用。
+Запись %@ №%@ была удалена из исходного файла.	Entry %1$@ %2$@ was deleted from the source file.	源文件中的记录 %1$@ %2$@ 已删除。
+Позиция группы приёма №%@ содержит нераспознанные данные. Выберите свободный номер.	RX group slot %@ contains unrecognized data. Select an unused number.	接收组槽位 %@ 含有无法识别的数据。请选择空闲编号。
+Недостаточно данных для новой записи %@ №%@.	Insufficient data for new entry %1$@ %2$@.	新记录 %1$@ %2$@ 的数据不足。
+Поле %@.%@ нельзя изменить этим редактором.	This editor cannot change field %1$@.%2$@.	此编辑器无法更改字段 %1$@.%2$@。
+Конфликт изменений в %@ №%@, поле %@.	Conflicting changes in %1$@ %2$@, field %3$@.	%1$@ %2$@ 的字段 %3$@ 存在修改冲突。
+Поле %@ не относится к режиму %@.	Field %1$@ is not available in %2$@ mode.	字段 %1$@ 不适用于 %2$@ 模式。
+Допустимые типы контакта: group, private, all.	Supported contact types: group, private, all.	支持的联系人类型为 group、private 和 all。
+Контакт: звонок должен иметь значение true или false.	Contact: the ring value must be true or false.	联系人：ring 值必须是 true 或 false。
+Ожидаются исходный и изменённый JSON отчёты.	Expected the original and edited JSON reports.	需要原始 JSON 报告及修改后的报告。
+Модель исходного RDT отличается от открытого документа.	The model in the source RDT differs from the open document.	源 RDT 型号与当前文档不一致。
+Поле %@ доступно только для чтения.	Field %@ is read-only.	字段 %@ 为只读。
+Конфликт изменения DMR ID.	Conflicting DMR ID changes.	DMR ID 的修改冲突。
+Шаблон можно указать только для нового канала.	A template can only be selected for a new channel.	仅新建信道时可指定模板。
+Номер исходного канала	Source channel number	源信道编号
+Исходный канал №%@ отсутствует или изменился.	Source channel %@ is missing or has changed.	源信道 %@ 不存在或已更改。
+Конфликт изменений дополнительных настроек CPS.	Conflicting changes in the additional CPS settings.	CPS 附加设置存在修改冲突。
+После сохранения DMR ID не совпал.	DMR ID differs after saving.	保存后 DMR ID 不一致。
+При проверке RDT не совпала запись %@ №%@.	RDT verification failed for entry %1$@ %2$@.	RDT 校验时记录 %1$@ %2$@ 不匹配。
+При проверке RDT не совпало поле %@ №%@, %@.	RDT verification failed for field %1$@ %2$@, %3$@.	RDT 校验时字段 %1$@ %2$@，%3$@ 不匹配。
+%@ №%@, %@: недопустимая ссылка на %@ №%@.	%1$@ %2$@, %3$@: invalid reference to %4$@ %5$@.	%1$@ %2$@，%3$@：对 %4$@ %5$@ 的引用无效。
+Выберите новое имя: выходной файл уже существует.	Choose a new name. The output file already exists.	输出文件已存在。请选择新名称。
+Исходный файл не является поддерживаемым RDT.	The source file is not a supported RDT.	源文件不是受支持的 RDT 文件。
+Исходный файл изменился во время копирования.	The source file changed during copying.	复制期间源文件发生了更改。
+В режиме нового документа укажите только --new-from-template ШАБЛОН.rdt.	For a new document, specify only --new-from-template TEMPLATE.rdt.	新建文档时只需指定 --new-from-template TEMPLATE.rdt。
+Для сохранения копии укажите исходный и новый RDT-файлы.	Specify the original and new RDT files to save a copy.	保存副本时须指定原始 RDT 文件和新 RDT 文件。
+Не удалось создать RDT. %@	Could not create the RDT file. %@	无法创建 RDT 文件。%@
+%@: отсутствуют поля %@.	%1$@: required fields are missing: %2$@.	%1$@：缺少必填字段 %2$@。
+%@: режим %@ несовместим с RDT MD-UV380/390.	%1$@: mode %2$@ is incompatible with MD-UV380/390 RDT files.	%1$@：模式 %2$@ 与 MD-UV380/390 的 RDT 不兼容。
+%@: индивидуальный radio_id отличается от основного DMR ID шаблона или снимка.	%@: individual radio_id differs from the primary DMR ID of the template or snapshot.	%@：独立的 radio_id 与模板或快照的主 DMR ID 不同。
+%@: поле %@ несовместимо с режимом %@.	%1$@: field %2$@ is incompatible with mode %3$@.	%1$@：字段 %2$@ 与模式 %3$@ 不兼容。
+%@: тип %@ несовместим с цифровой таблицей контактов TYT.	%1$@: type %2$@ is incompatible with the TYT digital contacts table.	%1$@：类型 %2$@ 与 TYT 数字联系人表不兼容。
+%@: у цифрового контакта указаны дополнительные параметры DTMF или M17.	%@: this digital contact has extra DTMF or M17 parameters.	%@：此数字联系人带有附加的 DTMF 或 M17 参数。
+%@: противоречивые настройки звонка ring и call_receive_tone.	%@: ring and call_receive_tone settings conflict.	%@：ring 与 call_receive_tone 设置冲突。
+%@: выбранный канал (!selected) допустим в primary/secondary/revert, но для участников списка TYT нужны конкретные каналы.	%@: the selected channel (!selected) is valid for primary/secondary/revert. TYT list members require specific channels.	%@：primary、secondary 和 revert 允许使用当前信道 (!selected)，TYT 列表成员必须指定具体信道。
+%@: не поддерживается перенос полей %@.	%1$@: transfer of fields %2$@ is unsupported.	%1$@：不支持转移字段 %2$@。
+Ожидается JSON-снимок TYT Reader с основными таблицами или DMR ID.	Expected a TYT Reader JSON snapshot with main tables or a DMR ID.	需要包含主表或 DMR ID 的 TYT Reader JSON 快照。
+Это отдельная таблица CSV. Импортируйте её в открытый черновик RDT.	This is a standalone CSV table. Import it into an open RDT draft.	这是独立的 CSV 表。请将其导入已打开的 RDT 草稿。
+Ожидается один раздел последовательностей DTMF.	Expected one DTMF sequences section.	需要一个 DTMF 序列部分。
+Некорректные номера непрочитанных групп приёма.	Invalid numbers for unread RX groups.	未读取的接收组编号无效。
+При проверке копии не совпал DMR ID.	DMR ID mismatch while verifying the copy.	校验副本时 DMR ID 不一致。
+При проверке копии не совпал состав таблицы %@.	The entries in table %@ differ in the copy.	校验副本时表 %@ 的记录组成不一致。
+При проверке копии не совпало поле %@ №%@, %@.	Field %1$@ %2$@, %3$@ differs in the copy.	校验副本时字段 %1$@ %2$@，%3$@ 不一致。
+Не удалось перенести снимок в RDT. %@	Could not transfer the snapshot to RDT. %@	无法将快照转入 RDT。%@
+Неизвестная модель в ответе прототипа	Unknown model in the USB helper response	USB 辅助程序返回了未知型号
+Неполный ответ USB-прототипа	Incomplete USB helper response	USB 辅助程序的响应不完整
+Неполный или неожиданный блок в ответе USB-прототипа	Incomplete or unexpected block in the USB helper response	USB 辅助程序返回了不完整或意外的数据块
+Лишние данные в ответе USB-прототипа	Extra data in the USB helper response	USB 辅助程序的响应含有多余数据
+В ответе нет распознаваемых каналов. Проверьте разметку кодплага	No recognizable channels in the response. Check the codeplug layout.	响应中没有可识别的信道。请检查配置文件布局。
+Не удалось полностью считать блок Privacy по USB. Ключи, последние шаблоны сообщений и часть аварийных параметров недоступны.	The Privacy block could not be fully read over USB. Keys, the last message templates and some emergency settings are unavailable.	未能通过 USB 完整读取加密数据块。密钥、末尾部分消息模板和部分紧急报警设置不可用。
+Эта версия USB-помощника пропускает блок Privacy. Для чтения ключей и соседних настроек используйте обновлённый TYT Reader.	This USB helper skips the Privacy block. Use an updated TYT Reader to read keys and adjacent settings.	此版本的 USB 辅助程序跳过了加密数据块。请使用新版 TYT Reader 读取密钥和相邻设置。
+В позициях групп приёма %@ данные не соответствуют формату TYT. Эти позиции пропущены.	RX group slots %@ contain data outside the TYT format and were skipped.	接收组槽位 %@ 的数据不符合 TYT 格式，已跳过。
+--include-privacy используется только для передачи данных через stdout	--include-privacy requires output to stdout	--include-privacy 要求将数据写入标准输出
+Файл уже существует: %@	File already exists: %@	文件已存在：%@
+Папка для результата отсутствует: %@	Output folder does not exist: %@	输出文件夹不存在：%@
+Считывание не завершено: %@	Read incomplete: %@	读取未完成：%@
+Сохранено %@ каналов, %@ зон, %@ контактов. Файл: %@	Saved %1$@ channels, %2$@ zones and %3$@ contacts to %4$@.	已将 %1$@ 个信道、%2$@ 个区域和 %3$@ 个联系人保存至 %4$@。
+В позициях групп приёма %@ старого снимка данные не соответствуют формату TYT. Эти записи пропущены при открытии копии.	RX group slots %@ in the old snapshot contain data outside the TYT format. They were skipped when opening the copy.	旧快照中接收组槽位 %@ 的数据不符合 TYT 格式，打开副本时已跳过。
+«%@»: допустимы %@	“%1$@” accepts the following values: %2$@	“%1$@”允许的值为：%2$@
+«%@»: требуется целое число.	“%@” requires an integer.	“%@”需要输入整数。
+«%@»: требуется целое число с.	“%@” requires a whole number of seconds.	“%@”需要输入整数秒。
+«%@»: диапазон 0–%@ с, шаг %@.	“%1$@” accepts 0–%2$@ seconds in steps of %3$@.	“%1$@”的范围为 0–%2$@ 秒，步长为 %3$@。
+«%@»: диапазон 0–%@, шаг %@.	“%1$@” accepts 0–%2$@ in steps of %3$@.	“%1$@”的范围为 0–%2$@，步长为 %3$@。
+Допустимо %@…%@  с шагом %@.	Enter %1$@–%2$@ in steps of %3$@.	允许值为 %1$@–%2$@，步长为 %3$@。
+Некорректный YAML.	Invalid YAML.	YAML 无效。
+Некорректный YAML в строке %@.	Invalid YAML at line %@.	第 %@ 行的 YAML 无效。
+Always	Always	始终
+Channel Free	Channel free	信道空闲
+Follow Admit Criteria	Follow admit criteria	遵循发射准入条件
+High	High	高
+KeyDown Encode	PTT press code	按下 PTT 时发送的编码
+KeyUp Encode	PTT release code	松开 PTT 时发送的编码
+Low	Low	低
+Medium	Medium	中
+Middle	Medium	中
+Post Only	At end only	仅在结束时
+Pre & Post	At start and end	开始和结束时
+Pre Only	At start only	仅在开始时
+Privacy Switch	Privacy switch	加密开关
+TX Interrupt	TX interrupt	发射中断
+Reverse Burst	Reverse burst	反向突发
+Radio ID %@	Radio ID %@	对讲机 ID %@
+Basic	Basic	基本加密
+Enhanced	Enhanced	增强加密
+Universal	Universal	通用加密
+Privacy	Privacy	加密设置
+RX	RX	接收
+TX	TX	发射
+Color Code	Color code	色码
+Time Slot	Time slot	时隙
+DMR ID	DMR ID	DMR ID
+DTMF ID	DTMF ID	DTMF ID
+Radio ID 1	Radio ID 1	对讲机 ID 1
+Radio ID 2	Radio ID 2	对讲机 ID 2
+Radio ID 3	Radio ID 3	对讲机 ID 3
+CTCSS/DCS	CTCSS/DCS	模拟／数字亚音（CTCSS/DCS）
+DCDM	DCDM	双时隙直通（DCDM）
+VOX	VOX	声控发射（VOX）
+Mid	Medium	中
+Min	Minimum	最低
+Max	Maximum	最高

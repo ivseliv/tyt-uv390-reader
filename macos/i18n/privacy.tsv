@@ -1,0 +1,98 @@
+%@ · изменено	%@ · modified	%@ · 已修改
+%@ — копия.dec	%@ — copy.dec	%@ — 副本.dec
+%ld шестнадцатеричных знаков	%ld hexadecimal digits	%ld 个十六进制字符
+Basic	Basic	基本加密
+Enhance	Enhance	增强加密
+Enhanced · 128 бит	Enhanced · 128-bit	增强加密 · 128 位
+Enhanced · 256 бит	Enhanced · 256-bit	增强加密 · 256 位
+Proprietary algorithm	Proprietary algorithm	专有算法
+Universal Privacy	Universal Privacy	通用加密
+FF · неизвестно	FF · unknown	全 FF · 未知
+macOS не удалось сгенерировать случайный ключ.	macOS could not generate a random key.	macOS 无法生成随机密钥。
+Активные	Active	已启用
+В поле ключа есть данные. В этом окне доступны сведения о позиции.	The key field contains data. This window shows the slot details.	密钥字段中有数据。此窗口显示该槽位的详细信息。
+В файле DEC поле заполнено байтами FF. Значение ключа в рации неизвестно.	The field in the DEC file contains only FF bytes. The key in the radio is unknown.	DEC 文件的此字段全为 FF。电台中的密钥值未知。
+В файле DEC поле заполнено нулями. Такой файл мог быть сохранён после чтения со скрытыми ключами.	The field in the DEC file contains only zeros. This file may have been saved after reading a radio that hides its keys.	DEC 文件的此字段全为零。该文件可能是在读取隐藏密钥的电台后保存的。
+В этой таблице TYT значения из одних 00 или FF обозначают свободную позицию.	In this TYT table, a value containing only 00 or only FF bytes marks an empty slot.	在这张 TYT 表中，全 00 或全 FF 表示空槽位。
+Введите ровно %ld шестнадцатеричных символов (0–9, A–F).	Enter exactly %ld hexadecimal digits (0–9, A–F).	请输入恰好 %ld 个十六进制字符（0–9、A–F）。
+Все	All	全部
+Выберите новое имя. Файл содержит ключи в открытом виде.	Choose a new filename. This file contains keys in plain text.	请选择新的文件名。文件中的密钥以明文存储。
+Выберите обычный файл подходящего размера.	Choose a regular file of the correct size.	请选择大小符合要求的普通文件。
+Выберите штатный RDT для MD-UV380 или MD-UV390.	Choose a TYT CPS RDT file for the MD-UV380 or MD-UV390.	请选择适用于 MD-UV380 或 MD-UV390 的 TYT CPS RDT 文件。
+Выкл.	Off	关闭
+Для нового типа введите ключ или нажмите «Сгенерировать».	Enter a key for the new type or click Generate.	请输入新类型的密钥，或点按“生成”。
+Для файла Universal Privacy CPS 2.42 ожидается 20 480 байт.	A CPS 2.42 Universal Privacy file must be 20,480 bytes.	CPS 2.42 通用加密文件的大小应为 20,480 字节。
+Для этого типа нет доступного значения.	No value is available for this type.	此类型没有可用的值。
+Для этой позиции в DEC нет значения поддерживаемого типа.	This DEC slot has no value of a supported type.	DEC 文件中的此槽位没有受支持类型的值。
+Есть данные	Data present	有数据
+Задан	Set	已设置
+Закрыть	Close	关闭
+Значение из файла DEC	Value from the DEC file	DEC 文件中的值
+Значение ключа	Key value	密钥值
+Значение скрыто	Value hidden	值已隐藏
+Имя	Name	名称
+Имя должно занимать до 16 кодовых единиц UTF-16 без управляющих символов.	The name may contain up to 16 UTF-16 code units and must be free of control characters.	名称最多可包含 16 个 UTF-16 码元，且不能包含控制字符。
+Имя или тип в этой позиции DEC отличается от данных рации.	The name or type in this DEC slot differs from the radio.	DEC 文件中此槽位的名称或类型与电台中的不同。
+Ключ HEX	Hex key	十六进制密钥
+Ключ HEX · %ld символов	Hex key · %ld digits	十六进制密钥 · %ld 个字符
+Ключи Basic и Enhanced	Basic and Enhanced keys	基本加密和增强加密密钥
+Ключи Privacy из рации	Privacy keys from the radio	电台中的加密密钥
+Ключи Universal Privacy	Universal Privacy keys	通用加密密钥
+Код %ld	Code %ld	代码 %ld
+Неверная длина ключа.	Invalid key length.	密钥长度无效。
+Неизвестный статус значения USB в позиции %ld.	Unknown USB value status in slot %ld.	槽位 %ld 的 USB 值状态未知。
+Нет оценки	Not assessed	未评估
+Нет такой позиции ключа.	This key slot does not exist.	此密钥槽位不存在。
+Новая таблица	New table	新建表
+Новый ключ HEX	New hex key	新的十六进制密钥
+Номер, имя или тип	Number, name or type	编号、名称或类型
+Нули · неизвестно	Zeros · unknown	全零 · 未知
+Обе раскладки показывают одну таблицу Enhanced. В штатной CPS 2.42 используется 128 бит, при specialprivacy=1 — 256 бит.	Both layouts use the same Enhanced table. CPS 2.42 uses 128-bit keys by default and 256-bit keys with specialprivacy=1.	两种布局使用同一张增强加密表。CPS 2.42 默认使用 128 位密钥，设置 specialprivacy=1 时使用 256 位密钥。
+Отбросить изменения	Discard changes	放弃更改
+Отбросить локальные правки?	Discard local changes?	放弃本地更改？
+Отбросить несохранённые изменения таблицы?	Discard unsaved changes to the table?	放弃对此表尚未保存的更改？
+Ответ USB	USB response	USB 响应
+Ответ USB не соответствует таблице Universal Privacy для MD-UV380/390.	The USB response does not match the Universal Privacy table format for the MD-UV380/390.	USB 响应不符合 MD-UV380/390 的通用加密表格式。
+Откройте локальный кодплаг MD-UV380 или MD-UV390.	Open a local codeplug for the MD-UV380 or MD-UV390.	请打开本地的 MD-UV380 或 MD-UV390 写频配置文件。
+Открыть DEC…	Open DEC…	打开 DEC…
+Открыть RDT…	Open RDT…	打开 RDT…
+Открыть свой DEC…	Open your DEC file…	打开自己的 DEC 文件…
+Отмена	Cancel	取消
+Отменить правку	Revert edit	撤销编辑
+Отчёт содержит имена, типы и статусы видимых слотов (%ld).	The report includes the names, types and statuses of the visible slots (%ld).	报告包含当前显示的 %ld 个槽位的名称、类型和状态。
+Очистить	Clear	清除
+Очистить позицию	Clear slot	清除槽位
+Очистить позицию %ld в локальной таблице?	Clear slot %ld in the local table?	清除本地表中的槽位 %ld？
+Позиции	Slots	槽位
+Позиции Universal Privacy	Universal Privacy slots	通用加密槽位
+Позиция %ld	Slot %ld	槽位 %ld
+Позиция свободна	Slot is empty	槽位为空
+Показать значение	Show value	显示值
+Показать ключ	Show key	显示密钥
+Получена неполная таблица ключей Privacy.	The radio returned an incomplete Privacy key table.	电台返回的加密密钥表不完整。
+Посмотреть значение из DEC	Show value from DEC	显示 DEC 中的值
+Применить к копии	Apply to copy	应用到副本
+Продолжить редактирование	Keep editing	继续编辑
+Размер файла изменился при чтении.	The file size changed while reading.	读取期间文件大小发生了变化。
+Размер файла превышает ожидаемый.	The file is larger than expected.	文件大小超过预期。
+Рация вернула нули. Определить исходный ключ по этому ответу нельзя.	The radio returned zeros. This response cannot identify the original key.	电台返回的数据全为零。无法据此确定原始密钥。
+Рация вернула только байты FF. Определить исходный ключ по этому ответу нельзя.	The radio returned only FF bytes. This response cannot identify the original key.	电台仅返回了 FF 字节。无法据此确定原始密钥。
+Свободен	Empty	空
+Сгенерировать	Generate	生成
+Скрыть	Hide	隐藏
+Слот	Slot	槽位
+Слот %ld · %@	Slot %ld · %@	槽位 %ld · %@
+Слоты 1–4	Slots 1–4	槽位 1–4
+Сначала выберите тип ключа.	Choose a key type first.	请先选择密钥类型。
+Совпали слот, имя и тип. Совпадение самих ключей не проверено.	The slot, name and type match. The key values have not been compared.	槽位、名称和类型均匹配。尚未比较密钥值。
+Сохранено: %@	Saved: %@	已保存：%@
+Сохранить копию DEC…	Save DEC copy…	存储 DEC 副本…
+Сохранить копию RDT…	Save RDT copy…	存储 RDT 副本…
+Сохранить отчёт…	Save report…	存储报告…
+Таблица	Table	表
+Тип	Type	类型
+Укажите позицию от 1 до 255.	Choose a slot from 1 to 255.	请选择 1 到 255 之间的槽位。
+Файл с таким именем уже существует. Выберите новое имя для копии.	A file with this name already exists. Choose a new name for the copy.	同名文件已存在。请为副本选择其他名称。
+Штатная CPS 2.42 использует 8 ключей по 128 бит. Настройке CPS specialprivacy=1 соответствуют 4 ключа по 256 бит в той же области RDT.	CPS 2.42 uses eight 128-bit keys by default. With specialprivacy=1 it stores four 256-bit keys in the same RDT area.	CPS 2.42 默认使用 8 个 128 位密钥。设置 specialprivacy=1 后，同一 RDT 区域可存储 4 个 256 位密钥。
+Этот тип ключа не помещается в выбранную позицию DEC.	This key type does not fit in the selected DEC slot.	所选 DEC 槽位的容量不足以容纳此类型的密钥。
+№ %ld	No. %ld	%ld 号
