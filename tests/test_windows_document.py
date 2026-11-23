@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from import_rdt import MODEL_OFFSET, RDT_SIZE
-from win_document import Document, read_universal_usb, save_new
+from win_document import BAD_JSON, Document, read_universal_usb, save_new
 
 
 class WindowsDocumentTests(unittest.TestCase):
@@ -68,6 +68,64 @@ class WindowsDocumentTests(unittest.TestCase):
                      {**Document.new().report, "zones": [{"index": 2, "name": "", "A": [3], "B": []}]}):
             with self.subTest(data=data), self.assertRaises(ValueError):
                 Document.open(self.save_fixture("bad.json", data))
+
+    def test_reject_malformed_render_fields_before_open_or_apply(self):
+        valid = Document.new()
+        active = valid.draft()
+        active["channels"] = [{"index": 7, "name": "FM", "mode": "analog", "rx_hz": 145500000}]
+        valid.apply(active)
+        channel = active["channels"][0]
+        contact = {"index": 2, "name": "TG", "type": "group"}
+        scan = {"index": 2, "name": "Scan", "channels": [7]}
+        key = {"id": "buttons", "title": "Кнопки", "rows": []}
+        for invalid in (
+            {"dmr_id": False}, {"usb_model": {}}, {"source_format": []},
+            {"channels": [{**channel, "rx_hz": "broken"}]},
+            {"channels": [{**channel, "tx_hz": 12.5}]},
+            {"channels": [{**channel, "tx_tone_code": {}}]},
+            {"channels": [{**channel, "bandwidth_code": True}]},
+            {"channels": [{**channel, "details": ["label"]}]},
+            {"channels": [{**channel, "details": [{"label": "Mode", "value": []}]}]},
+            {"contacts": [{**contact, "callsign": []}]},
+            {"contacts": [{**contact, "ring": "true"}]},
+            {"scan_lists": [{**scan, "primary": "1"}]},
+            {"local_empty_slots": {"numberKeys": 2}}, {"local_empty_slots": ["quick"]},
+            {"cps_sections": [{"id": "basic", "rows": []}]},
+            {"cps_sections": [{**key, "title": 1}]},
+            {"cps_sections": [{**key, "rows": [{"name": "X", "fields": [{"label": None, "value": ""}]}]}]},
+            {"cps_sections": [{**key, "rows": [{"name": "Быстрый доступ 1", "fields": [
+                {"label": "Шаблон", "value": "нет"}]}]}]},
+        ):
+            draft = dict(active, **invalid)
+            with self.subTest(invalid=invalid):
+                with self.assertRaisesRegex(ValueError, BAD_JSON):
+                    Document.open(self.save_fixture("invalid.json", draft))
+                with self.assertRaises(ValueError):
+                    valid.apply(draft)
+                self.assertEqual(valid.report, active)
+        raw = self.root / "invalid.json"
+        raw.write_bytes(b'{"channels":[{"index":1,"mode":"analog","name":"\\udabc"}],"zones":[],"contacts":[]}')
+        with self.assertRaisesRegex(ValueError, BAD_JSON):
+            Document.open(raw)
+
+    def test_optional_null_from_an_older_json_and_unknown_fields_remain_editable(self):
+        report = {"channels": [{"index": 1, "name": "FM", "mode": "analog", "rx_hz": None,
+                                "details": None, "future_channel_setting": {"fallback": [1, 3]}}],
+                  "zones": [], "contacts": [], "rx_groups": None, "local_empty_slots": None,
+                  "future_metadata": {"label": "Оригинал", "settings": [1, "二"]}}
+        source = self.save_fixture("older.json", report)
+        doc = Document.open(source)
+        edited = doc.draft()
+        edited["channels"][0]["name"] = "名"
+        doc.apply(edited)
+        output = self.root / "new.json"
+        doc.save_json(output)
+        restored = Document.open(output).report
+        self.assertEqual(restored["future_metadata"], report["future_metadata"])
+        self.assertEqual(restored["channels"][0]["future_channel_setting"], report["channels"][0]["future_channel_setting"])
+        self.assertIsNone(restored["channels"][0]["rx_hz"])
+        self.assertEqual(restored["channels"][0]["name"], "名")
+        self.assertEqual(json.loads(source.read_bytes()), report)
 
     def test_rdt_edits_and_template_keep_opaque_data_and_original(self):
         data = bytearray(RDT_SIZE)

@@ -255,6 +255,7 @@ def open_gui(smoke=False, initial=None):
                 self.section = sel[0]
                 self.query.set("")
                 self.refresh_rows()
+                self.update_status()
 
         def refresh_rows(self, select=None):
             key = self.section
@@ -323,6 +324,9 @@ def open_gui(smoke=False, initial=None):
                 msg = str(self.doc.source or self.tr("Временный документ"))
                 if self.dirty:
                     msg += "   ·   " + self.tr("Локальные изменения")
+                note = slot_note(self.doc.report, self.section.removeprefix("cps:"))
+                if note:
+                    msg += "   ·   " + self.tr(note)
             else:
                 msg = self.tr("Подключите рацию по USB или откройте RDT, YAML, JSON или CSV.")
             self.status.set(msg)
@@ -603,6 +607,11 @@ def open_gui(smoke=False, initial=None):
                         else:
                             apply_field(edited_row, f, value)
                     if table in TABLES:
+                        changed = {f.key for f, value in updated}
+                        if table == "channels" and changed.intersection(("privacy_type_code", "privacy_index_code")):
+                            limit = 255 if edited_row.get("privacy_type_code") == 3 else 15
+                            if (edited_row.get("privacy_index_code") or 0) > limit:
+                                raise ValueError(self.tr("Неверное значение для поля «%@».", self.tr("Индекс Privacy (с нуля)")))
                         selected = row["index"]
                         records = [r for r in draft.get(table, []) if r["index"] != selected]
                         draft[table] = sorted(records + [edited_row], key=lambda r: r["index"])

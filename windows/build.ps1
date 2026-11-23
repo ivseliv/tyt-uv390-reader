@@ -56,8 +56,8 @@ try {
     $cFlags = @("/nologo", "/TC", "/std:c17", "/O2", "/MT", "/utf-8", "/I$sdkDirectory/include")
     $reader = Join-Path $native "read_usb.exe"
     $mock = Join-Path $native "usb_mock.exe"
-    Invoke-Checked "cl.exe" ($cFlags + @("/Fo$native/reader.obj", "/Fe$reader", "read_usb.c", $library))
-    Invoke-Checked "cl.exe" ($cFlags + @("/Fo$native/mock.obj", "/Fe$mock", "tests/universal_usb_mock.c", $library))
+    Invoke-Checked "cl.exe" ($cFlags + @("/Fo$native/reader.obj", "/Fe$reader", "read_usb.c", "/link", $library))
+    Invoke-Checked "cl.exe" ($cFlags + @("/Fo$native/mock.obj", "/Fe$mock", "tests/universal_usb_mock.c", "/link", $library))
     $savedMock = $env:TYT_TEST_USB_MOCK
     try {
         $env:TYT_TEST_USB_MOCK = $mock

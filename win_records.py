@@ -143,6 +143,8 @@ def parse_field(f, text, tr):
         except ValueError:
             raise ValueError(tr("Номера слотов должны быть целыми числами.")) from None
         return [{"index": n} for n in numbers] if f.key in ("A", "B") else numbers
+    if f.kind == "tone" and text.strip().casefold() in ("", "none", "off", "выкл.", tr("Выкл.").casefold()):
+        return 0xffff
     if not text.strip():
         return None
     if f.kind == "frequency":
@@ -159,7 +161,11 @@ def parse_field(f, text, tr):
             return code
     if f.kind == "number":
         try:
-            return int(text.strip())
+            value = int(text.strip())
+            maximum = {"privacy_type_code": 3, "privacy_index_code": 255, "color_code": 15,
+                       "encode_slot": 32, "message_slot": 50}.get(f.key, 0xffffff)
+            if 0 <= value <= maximum:
+                return value
         except ValueError:
             pass
     raise ValueError(tr("Неверное значение для поля «%@».", tr(f.label)))

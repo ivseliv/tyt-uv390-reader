@@ -12,7 +12,7 @@ import unicodedata
 from cps_csv import export_csv, import_csv, merge_csv
 from export_qdmr import MAX_BYTES as MAX_YAML_BYTES, export_qdmr
 from import_settings import load_file
-from normalize_snapshot import TABLES, indexed, named_sections, normalize
+from normalize_snapshot import TABLES, indexed, normalize
 from rdt_editor import export_rdt, publish_new
 from rdt_template import transfer_rdt
 from read_settings import decode
@@ -24,6 +24,9 @@ BAD_JSON = "Этот JSON не похож на файл настроек TYT Rea
 PRIVACY_TYPES = ("Выкл.", "ARC4", "DES", "AES-128", "AES-256", "Enhance",
                  "Proprietary algorithm", "MAES-512")
 VALUE_STATUS = ("notApplicable", "zeros", "ones", "dataPresent")
+CHANNEL_NUMBERS = ("rx_hz", "tx_hz", "bandwidth_code", "color_code", "time_slot", "contact_index",
+                   "rx_group_index", "scan_list_index", "privacy_type_code", "privacy_index_code",
+                   "rx_tone_code", "tx_tone_code", "radio_id", "rdt_template_index")
 
 
 def save_new(path, data):
@@ -39,27 +42,107 @@ def save_new(path, data):
         publish_new(stream.name, path)
 
 
+def _text(value):
+    if not isinstance(value, str):
+        raise ValueError(BAD_JSON)
+    # JSON permits escaped lone surrogates in some parsers. Tcl/Tk cannot display them.
+    try:
+        value.encode("utf-8")
+    except UnicodeEncodeError:
+        raise ValueError(BAD_JSON) from None
+
+
+def _optional_numbers(row, keys):
+    for key in keys:
+        value = row.get(key)
+        if value is not None and (type(value) is not int or not -(1 << 63) <= value < 1 << 63):
+            raise ValueError(BAD_JSON)
+
+
+def _check_fields(fields):
+    if not isinstance(fields, list):
+        raise ValueError(BAD_JSON)
+    for field in fields:
+        if not isinstance(field, dict):
+            raise ValueError(BAD_JSON)
+        _text(field.get("label"))
+        _text(field.get("value"))
+
+
+def _check_sections(sections):
+    if not isinstance(sections, list):
+        raise ValueError(BAD_JSON)
+    seen = set()
+    for section in sections:
+        if not isinstance(section, dict) or not isinstance(section.get("rows"), list):
+            raise ValueError(BAD_JSON)
+        _text(section.get("title"))
+        _text(section.get("id"))
+        key = section["id"]
+        if key in seen or "\x00" in key:
+            raise ValueError(BAD_JSON)
+        seen.add(key)
+        for row in section["rows"]:
+            if not isinstance(row, dict):
+                raise ValueError(BAD_JSON)
+            _text(row.get("name"))
+            _check_fields(row.get("fields"))
+            if key in ("dtmf", "buttons") and row["name"].startswith("Быстрый доступ "):
+                for field in row["fields"]:
+                    if field["label"] in ("Номер Encode", "Шаблон"):
+                        try:
+                            int(field["value"])
+                        except ValueError:
+                            raise ValueError(BAD_JSON) from None
+
+
 def _check_snapshot(report):
     if not isinstance(report, dict) or "usb_privacy" in report:
         raise ValueError(BAD_JSON)
     if not all(isinstance(report.get(key), list) for key in ("channels", "zones", "contacts")):
         raise ValueError(BAD_JSON)
+    _optional_numbers(report, ("dmr_id",))
+    for key in ("file_model", "usb_model", "source_format"):
+        if report.get(key) is not None:
+            _text(report[key])
+    slots = report.get("local_empty_slots", {})
+    if not isinstance(slots, dict):
+        raise ValueError(BAD_JSON)
+    for key in ("quick", "numberKeys"):
+        values = slots.get(key, [])
+        if not isinstance(values, list) or any(type(i) is not int for i in values):
+            raise ValueError(BAD_JSON)
     tables = indexed(report)
-    named_sections(report)
+    _check_sections(report.get("cps_sections", []))
     for rows in tables.values():
-        if not all(isinstance(row.get("name"), str) for row in rows.values()):
-            raise ValueError(BAD_JSON)
+        for row in rows.values():
+            _text(row.get("name"))
+            _check_fields(row.get("details", []))
     for table, field in (("contacts", "type"), ("channels", "mode")):
-        if not all(isinstance(row.get(field), str) for row in tables[table].values()):
-            raise ValueError(BAD_JSON)
+        for row in tables[table].values():
+            _text(row.get(field))
+    for row in tables["channels"].values():
+        _optional_numbers(row, CHANNEL_NUMBERS)
+    for row in tables["scan_lists"].values():
+        _optional_numbers(row, ("primary", "secondary", "revert"))
+    for row in tables["contacts"].values():
+        _optional_numbers(row, ("dmr_id", "call_receive_tone"))
+        for key in ("dtmf_number", "callsign"):
+            if row.get(key) is not None:
+                _text(row[key])
+        for key in ("ring", "broadcast"):
+            if row.get(key) is not None and type(row[key]) is not bool:
+                raise ValueError(BAD_JSON)
     for zone in tables["zones"].values():
         for side in ("A", "B"):
             if not isinstance(zone.get(side), list) or not all(
                 isinstance(member, dict) and type(member.get("index")) is int
-                and (member.get("name") is None or isinstance(member["name"], str))
                 for member in zone[side]
             ):
                 raise ValueError(BAD_JSON)
+            for member in zone[side]:
+                if member.get("name") is not None:
+                    _text(member["name"])
     for table, field in (("rx_groups", "contacts"), ("scan_lists", "channels")):
         for row in tables[table].values():
             if not isinstance(row.get(field), list) or any(type(i) is not int for i in row[field]):
@@ -68,6 +151,8 @@ def _check_snapshot(report):
         values = report.get(field, [])
         if not isinstance(values, list) or any(type(v) is not kind for v in values):
             raise ValueError(BAD_JSON)
+    for note in report.get("read_notes", []):
+        _text(note)
 
 
 def _open_json(path):
@@ -75,12 +160,26 @@ def _open_json(path):
         data = stream.read(JSON_LIMIT + 1)
     if len(data) > JSON_LIMIT:
         raise ValueError("Снимок превышает 128 МБ.")
-    report = json.loads(data)
+    def invalid_constant(token):
+        raise ValueError(BAD_JSON)
+    try:
+        report = json.loads(data, parse_constant=invalid_constant)
+    except (UnicodeDecodeError, json.JSONDecodeError, RecursionError):
+        raise ValueError(BAD_JSON) from None
     if isinstance(report, dict):
-        for key in ("rx_groups", "scan_lists", "cps_sections", "read_notes", "unrecognized_rx_group_slots"):
+        for key in ("rx_groups", "scan_lists", "cps_sections", "read_notes", "unrecognized_rx_group_slots",
+                    "local_empty_slots"):
             if report.get(key) is None:
                 report.pop(key, None)
-    _check_snapshot(report)
+        for table in TABLES:
+            if isinstance(report.get(table), list):
+                for row in report[table]:
+                    if isinstance(row, dict) and row.get("details") is None:
+                        row.pop("details", None)
+    try:
+        _check_snapshot(report)
+    except ValueError:
+        raise ValueError(BAD_JSON) from None
     if (report.get("usb_model") or report.get("file_model")) in MODELS:
         # Older TYT Reader versions decoded unsupported receive-group records.
         invalid = {r["index"] for r in report.get("rx_groups", [])
