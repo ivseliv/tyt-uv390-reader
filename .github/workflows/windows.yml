@@ -1,0 +1,26 @@
+name: Windows x64
+
+on: [push, workflow_dispatch]
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Build and test the Windows app
+        shell: pwsh
+        run: ./windows/build.ps1
+      - name: Upload the portable ZIP
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: TYT-Reader-Windows-x64
+          path: dist/windows-x64/TYT-Reader-Windows-x64.zip
+          if-no-files-found: error

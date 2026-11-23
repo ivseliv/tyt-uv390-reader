@@ -387,6 +387,11 @@ def patch_file(path, baseline, edited):
 
 
 def publish_new(staged, output):
+    if sys.platform == "win32":
+        # Both paths are on the destination volume. Windows rename fails if
+        # the destination already exists, including on FAT/exFAT volumes.
+        os.rename(staged, output)
+        return
     try:
         os.link(staged, output)
         return

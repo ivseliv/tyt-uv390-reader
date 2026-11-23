@@ -1,4 +1,12 @@
-# TYT MD‑UV390 на macOS — чтение и редактор локальных копий
+# TYT Reader для macOS и Windows
+
+## Windows x64
+
+Распакуйте **весь ZIP** в отдельную папку и запустите **TYT Reader.exe**. Приложение открывает JSON TYT Reader, RDT из CPS, YAML qdmr и CSV каналов и контактов. **Файл → Сохранить JSON…** сохраняет локальную копию. **Сервис** открывает редакторы DTMF, файлов Privacy и калибровки. Язык переключается в меню **Язык / Language / 语言**.
+
+**Считать настройки** читает рацию по USB. Для этого Windows должна предоставить интерфейс программирования драйверу, совместимому с libusb, например WinUSB. Для открытия файлов драйвер не требуется. Установка приложения не меняет драйверы Windows. [Поддерживаемые драйверы Windows в документации libusb](https://github.com/libusb/libusb/wiki/Windows#driver-installation)
+
+Из исходников интерфейс запускается командой `py -3.12 windows_app.py` в каталоге проекта (64-битный Python с Tk). Переносимый комплект с USB-помощником собирается на Windows командой `.\windows\build.ps1` в PowerShell. Нужны Visual Studio 2022 Build Tools с инструментами C++, 7‑Zip и 64-битный Python 3.12. Скрипт собирает приложение, запускает тесты и сохраняет результат в `dist/windows-x64/TYT-Reader-Windows-x64.zip`.
 
 ## TYT Reader для macOS
 

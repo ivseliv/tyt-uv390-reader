@@ -5,7 +5,13 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#include <windows.h>
+#else
 #include <time.h>
+#endif
 
 /* USB sequence and codeplug offsets reference qdmr v0.15.1. */
 enum {
@@ -67,9 +73,25 @@ static bool check_length(int result, uint16_t expected, const char *operation)
 
 static void pause_ms(long milliseconds)
 {
+#ifdef _WIN32
+    Sleep((DWORD)milliseconds);
+#else
     struct timespec delay = {.tv_sec = milliseconds / 1000,
                              .tv_nsec = (milliseconds % 1000) * 1000000};
     nanosleep(&delay, NULL);
+#endif
+}
+
+static bool prepare_output(void)
+{
+#ifdef _WIN32
+    /* Windows CRT text mode expands LF bytes in binary codeplug records. */
+    if (_setmode(_fileno(stdout), _O_BINARY) < 0) {
+        perror("binary USB output");
+        return false;
+    }
+#endif
+    return true;
 }
 
 static bool idle(libusb_device_handle *radio)
@@ -451,6 +473,8 @@ close:
 
 int main(int argc, char **argv)
 {
+    if (!prepare_output())
+        return 1;
     enum read_mode mode = READ_SETTINGS;
     if (argc == 2 && strcmp(argv[1], "--detect") == 0)
         mode = DETECT;
