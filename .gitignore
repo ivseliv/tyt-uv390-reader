@@ -1,4 +1,5 @@
 /read_usb
 /tyt-settings*.json
+*.tytbackup
 /__pycache__/
 /dist/

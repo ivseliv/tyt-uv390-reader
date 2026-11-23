@@ -604,3 +604,38 @@ VOX	VOX	声控发射（VOX）
 Mid	Medium	中
 Min	Minimum	最低
 Max	Maximum	最高
+Некорректная длина ответа кодплага.	Invalid stock codeplug transfer length.	配置文件响应长度无效。
+Некорректный заголовок штатного кодплага TYT.	Invalid TYT stock codeplug header.	TYT 原厂配置文件的标头无效。
+Неожиданный блок при передаче кодплага.	Unexpected block in the stock codeplug transfer.	传输配置文件时出现意外数据块。
+Компонент чтения вернул данные вне полей проверки.	The reader returned data outside its permitted guard fields.	读取组件返回了校验字段之外的数据。
+Получен неполный набор блоков кодплага.	Incomplete codeplug block map.	配置文件的数据块集合不完整。
+Некорректный размер блока кодплага.	Invalid codeplug block size.	配置文件数据块大小无效。
+Изменение затрагивает сектор, доступный только для чтения.	This update would change a read-only sector.	此更改涉及只读扇区。
+Изменение выходит за границы поддерживаемых таблиц.	This update would change bytes outside the supported tables.	此更改超出了支持的表范围。
+Не удалось определить целевую рацию.	Invalid target identity.	无法识别目标对讲机。
+Предпросмотр расходится с изменениями кодплага.	The preview does not match the proposed codeplug changes.	预览与配置文件更改不一致。
+Не удалось выполнить операцию с кодплагом рации.	Stock codeplug operation failed.	对讲机配置操作失败。
+Адрес вне допустимой разметки TYT RDT.	Address outside the TYT RDT segments.	地址超出了 TYT RDT 的有效范围。
+Выберите полный снимок TYT Reader или штатный кодплаг RDT.	Choose a complete TYT Reader snapshot or a TYT RDT codeplug.	请选择完整的 TYT Reader 快照或原厂 RDT 配置文件。
+Нужен кодплаг с указанием модели MD-UV380 или MD-UV390.	A model-bound MD-UV380/390 codeplug is required.	配置文件必须指定 MD-UV380 或 MD-UV390 型号。
+В исходном документе требуется корректный DMR ID.	A valid source DMR ID is required.	源文件必须包含有效的 DMR ID。
+DMR ID отличается. Сектор с DMR ID доступен только для чтения.	DMR ID differs. The sector containing the DMR ID is read-only.	DMR ID 不匹配。DMR ID 所在的扇区为只读。
+Некорректный список непрочитанных групп приёма.	Invalid list of unreadable receive groups.	未能读取的接收组列表无效。
+Некорректный план записи кодплага.	Invalid confirmed codeplug plan.	配置文件写入计划无效。
+Предпросмотр кодплага не соответствует текущей операции.	The codeplug preview no longer matches the operation.	配置文件预览与当前操作不一致。
+Все выбранные настройки уже совпадают.	There are no settings to write.	所有选定的设置均已一致。
+Входные данные превышают допустимый размер кодплага.	Input exceeds the codeplug size limit.	输入数据超过了配置文件的大小限制。
+Не удалось распознать занятую позицию %@ №%@.	Unrecognized occupied slot: %@ #%@.	无法识别已占用的 %@ 槽位 %@。
+Модель кодплага %@ отличается от подключённой рации %@.	Codeplug model %@ does not match the connected %@.	配置文件型号 %@ 与连接的对讲机 %@ 不匹配。
+Нельзя изменить непрочитанную группу приёма №%@.	Cannot change unreadable receive group #%@.	无法更改未能读取的接收组 %@。
+Некорректные дополнительные поля в канале №%@.	Invalid additional fields in channel #%@.	信道 %@ 的附加字段无效。
+Группа приёма №%@ расположена в секторе только для чтения (позиции 1–53).	RX group #%@ is in a sector reserved from writing (slots 1–53).	接收组 %@ 位于只读扇区（槽位 1–53）。
+Не прошла проверка записи %@ №%@.	Encoded settings did not verify: %@ #%@.	记录校验失败：%@ 槽位 %@。
+В группе приёма №%@ контакт №%@ должен быть групповым.	RX group #%@ requires a group-call contact at slot #%@.	接收组 %@ 中的联系人 %@ 必须为组呼联系人。
+Проверка остановила запись до стирания. Сообщение USB: %@. Резервная копия: %@	Programming stopped before any sector was erased. USB reported “%@”. Backup: %@	写入在擦除任何扇区前已停止。USB 信息：%@。备份：%@
+Все секторы (%@) сверены. Завершение сеанса не подтверждено. Резервная копия: %@	All %@ sectors passed readback. The end of the session was not confirmed. Backup: %@	全部 %@ 个扇区均已回读校验，尚未确认会话结束。备份：%@
+Сектор %@ мог записаться частично. Сверено секторов: %@ из %@. Резервная копия: %@	Sector %@ may be partially programmed. Verified %@ of %@ sectors. Backup: %@	扇区 %@ 可能仅写入了一部分。已校验 %@ / %@ 个扇区。备份：%@
+Сверено секторов: %@ из %@. Запись остановилась между секторами. Резервная копия: %@	Verified %@ of %@ sectors. Programming stopped between sectors. Backup: %@	已校验 %@ / %@ 个扇区。写入在两个扇区之间停止。备份：%@
+Подтверждение записи отсутствует или повреждено. Состояние рации неизвестно. Резервная копия: %@	Write confirmation is missing or invalid. The radio’s state is unknown. Backup: %@	写入确认缺失或无效，对讲机状态未知。备份：%@
+Компонент записи не запустился. Резервная копия: %@	The programming helper could not start. Backup: %@	写入组件未能启动。备份：%@
+Состояние рации после сбоя связи неизвестно. Резервная копия: %@	The radio’s state is unknown after a communication failure. Backup: %@	通信中断后，对讲机状态未知。备份：%@

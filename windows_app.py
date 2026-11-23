@@ -1,4 +1,4 @@
-"""TYT Reader for Windows. All edits are local and the USB helper is read-only."""
+"""TYT Reader for Windows. USB programming is a separate, explicitly confirmed action."""
 import argparse
 import copy
 import queue
@@ -7,6 +7,9 @@ import threading
 import weakref
 from pathlib import Path
 
+import win_program
+import write_settings
+from write_backup import prepare_restore
 from cps_dtmf import sequence_section
 from cps_sections import TITLES
 from win_cps_actions import add_slot, assignments, delete_slot, save_dtmf, set_assignment, slot_note, slot_number, slot_sections
@@ -75,6 +78,12 @@ def offline_check():
             assert preview("channels", reopened.report["channels"][0], tr)[1] == "Дом / 家"
         assert Language("en")("Считать настройки") == "Read Settings"
         assert Language("zh-Hans")("Считать настройки") == "读取设置"
+        # Exercise the bundled programming backend offline, with an empty simulated radio.
+        target = dict.fromkeys(write_settings.ADDRESSES, bytes(write_settings.BLOCK))
+        report = dict(reopened.report, usb_model="MD-UV390", dmr_id=0)
+        assert win_program.eligible(report)
+        planned = write_settings.plan_settings(report, ("MD-UV390", bytes(12), target))
+        assert planned["changes"]["channels"] == 1 and planned["changes"]["zones"] == 1
 
 
 def open_gui(smoke=False, initial=None):
@@ -89,6 +98,7 @@ def open_gui(smoke=False, initial=None):
             self.doc = None
             self.dirty = False
             self.busy = False
+            self.activity = "Чтение по USB…"
             self.section = "channels"
             self.events = queue.Queue()
             self.query = tk.StringVar()
@@ -150,11 +160,15 @@ def open_gui(smoke=False, initial=None):
                     ("Изменить", self.edit), ("Дублировать", lambda: self.edit("duplicate")),
                     ("Удалить", self.delete), ("Копировать запись", self.copy_row), ("Вставить запись", lambda: self.edit("paste"))])
             services = menu(tr("Сервис"))
+            self.service_menu = services
             actions(services, [("Считать настройки", self.read), ("Считать Universal Privacy по USB…", self.universal),
                  ("Basic и Enhanced (USB)…", self.basic), ("Ключи Universal (.dec)…", lambda: win_services.show_dec(self.root, tr)),
                  ("Ключи Basic и Enhanced (.rdt)…", lambda: win_services.show_rdt_privacy(self.root, tr)),
                  ("Сервисная калибровка…", lambda: win_services.show_calibration(self.root, tr)),
                  ("Последовательности DTMF…", self.dtmf), ("Сохранить DTMF в копию RDT…", self.save_sequences)])
+            services.add_separator()
+            actions(services, [("Записать настройки в рацию…", self.write_radio),
+                               ("Восстановить настройки из резервной копии…", self.restore_radio)])
             langs = menu("Язык / Language / 语言")
             self.active_language = tk.StringVar(value=tr.choice)
             for code, name in {"system": tr("Системный язык"), **LANGUAGES}.items():
@@ -167,7 +181,7 @@ def open_gui(smoke=False, initial=None):
             bar.pack(fill="x", pady=(0, 10))
             ttk.Label(bar, text="TYT MD-UV390", font=("Segoe UI", 16, "bold")).pack(side="left", padx=(0, 18))
             self.buttons = {}
-            for key, fn in [("Считать настройки", self.read), ("Открыть файл…", self.open_file),
+            for key, fn in [("Считать настройки", self.read), ("Записать в рацию…", self.write_radio), ("Открыть файл…", self.open_file),
                             ("Сохранить JSON…", self.save)]:
                 b = ttk.Button(bar, text=tr(key), command=lambda fn=fn: self.run(fn))
                 b.pack(side="left", padx=(0, 5))
@@ -275,6 +289,7 @@ def open_gui(smoke=False, initial=None):
             else:
                 rows = self.sections.get(key, {}).get("rows", [])
             self.buttons["Сохранить JSON…"].state(["!disabled" if editable else "disabled"])
+            self.update_write_controls()
             slot_table = editable and key.startswith("cps:") and key[4:] in slot_sections(self.doc.report)
             for label in ("Добавить", "Дублировать", "Удалить"):
                 allowed = editable and (key in TABLES or (slot_table and label != "Дублировать"))
@@ -319,7 +334,7 @@ def open_gui(smoke=False, initial=None):
 
         def update_status(self):
             if self.busy:
-                msg = self.tr("Чтение по USB…")
+                msg = self.tr(self.activity)
             elif self.doc:
                 msg = str(self.doc.source or self.tr("Временный документ"))
                 if self.dirty:
@@ -424,14 +439,22 @@ def open_gui(smoke=False, initial=None):
                     doc.save_csv(path, kind)
                 self.status.set(self.tr("Скопировано в файл %@", Path(path).name))
 
-        def asynchronous(self, job, success):
+        def update_write_controls(self):
+            ready = not self.busy and self.doc is not None and win_program.eligible(self.doc.report)
+            self.buttons["Записать в рацию…"].state(["!disabled" if ready else "disabled"])
+            self.service_menu.entryconfigure(self.tr("Записать настройки в рацию…"), state="normal" if ready else "disabled")
+            self.service_menu.entryconfigure(self.tr("Восстановить настройки из резервной копии…"), state="disabled" if self.busy else "normal")
+
+        def asynchronous(self, job, success, activity="Чтение по USB…", failure=None):
             self.busy = True
+            self.activity = activity
+            self.update_write_controls()
             self.update_status()
             def worker():
                 try:
                     value = job()
                 except Exception as exc:
-                    self.events.put((None, str(exc)))
+                    self.events.put((failure, str(exc)))
                 else:
                     self.events.put((success, value))
             threading.Thread(target=worker, daemon=True).start()
@@ -443,6 +466,7 @@ def open_gui(smoke=False, initial=None):
                 pass
             else:
                 self.busy = False
+                self.update_write_controls()
                 self.update_status()
                 if callback:
                     self.run(lambda: callback(value))
@@ -453,6 +477,34 @@ def open_gui(smoke=False, initial=None):
         def read(self):
             if self.discard():
                 self.asynchronous(Document.read_usb, self.set_doc)
+
+        def write_radio(self):
+            doc = self.need_doc()
+            report = doc.draft()
+            source = str(doc.source or self.tr("Открытая копия в редакторе"))
+            self.asynchronous(lambda: write_settings.prepare(report),
+                              lambda p: self.review_write(p, source), "Сравниваю настройки с рацией…")
+
+        def restore_radio(self):
+            path = filedialog.askopenfilename(parent=self.root, title=self.tr("Восстановить настройки из резервной копии…"),
+                                               filetypes=[("TYT Backup", "*.tytbackup")])
+            if path:
+                self.asynchronous(lambda: prepare_restore(path),
+                                  lambda p: self.review_write(p, path, True), "Сравниваю настройки с рацией…")
+
+        def review_write(self, proposal, source, restore=False):
+            backup = win_program.review(self.root, self.tr, proposal, source, restore)
+            if backup is None:
+                return
+            def verified(_):
+                text = self.tr("Запись проверена повторным чтением. Резервная копия: %@", backup)
+                self.status.set(text)
+                messagebox.showinfo("TYT Reader", text, parent=self.root)
+            def failed(reason):
+                message = "\n".join(self.tr.generated(line) for line in reason.splitlines())
+                messagebox.showerror("TYT Reader", message, parent=self.root)
+            self.asynchronous(lambda: write_settings.apply(proposal, backup=backup), verified,
+                              "Записываю и проверяю настройки…", failed)
 
         def universal(self):
             self.asynchronous(read_universal_usb, lambda report: win_services.show_universal(self.root, self.tr, report))
@@ -691,6 +743,7 @@ def open_gui(smoke=False, initial=None):
     app = ReaderWindow(root)
     if smoke:
         app.new()
+        assert app.buttons["Записать в рацию…"].instate(["disabled"])
         app.dtmf()
         root.update_idletasks()
         assert app.table.get_children() and app.section == "cps:dtmf_sequences"

@@ -27,3 +27,6 @@ class ServiceFileTests(unittest.TestCase):
 
     def test_universal_usb_metadata_and_local_key(self):
         self.run_check("UniversalUSBChecks.swift", "PrivacyEditor.swift", "UniversalUSBViewer.swift")
+
+    def test_radio_write_review_and_confirmation(self):
+        self.run_check("RadioWriteReviewChecks.swift", "RadioWriteReview.swift")

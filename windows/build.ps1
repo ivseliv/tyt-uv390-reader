@@ -58,11 +58,16 @@ try {
     $mock = Join-Path $native "usb_mock.exe"
     Invoke-Checked "cl.exe" ($cFlags + @("/Fo$native/reader.obj", "/Fe$reader", "read_usb.c", "/link", $library))
     Invoke-Checked "cl.exe" ($cFlags + @("/Fo$native/mock.obj", "/Fe$mock", "tests/universal_usb_mock.c", "/link", $library))
+    $writeMock = Join-Path $native "write_mock.exe"
+    Invoke-Checked "cl.exe" ($cFlags + @("/Fo$native/write_mock.obj", "/Fe$writeMock", "tests/stock_write_mock.c", "/link", $library))
+    $savedWriteMock = $env:TYT_TEST_WRITE_MOCK
     $savedMock = $env:TYT_TEST_USB_MOCK
     try {
+        $env:TYT_TEST_WRITE_MOCK = $writeMock
         $env:TYT_TEST_USB_MOCK = $mock
         Invoke-Checked $venvPython @("-B", "-m", "unittest", "discover", "-s", "tests", "-q")
     } finally {
+        $env:TYT_TEST_WRITE_MOCK = $savedWriteMock
         $env:TYT_TEST_USB_MOCK = $savedMock
     }
 
