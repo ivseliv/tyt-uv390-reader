@@ -22,7 +22,7 @@ for size in 16 32 128 256 512; do
     sips -z "$retina_size" "$retina_size" "$icon_source" --out "$iconset/icon_${size}x${size}@2x.png" >/dev/null
 done
 iconutil -c icns "$iconset" -o "$contents/Resources/AppIcon.icns"
-cp "$project_dir"/{read_settings,import_settings,import_rdt,import_qdmr,export_qdmr,cps_basic,cps_dtmf,cps_channel,cps_sections,cps_section_editor,cps_csv,cps_csv_record,rdt_editor,rdt_template,normalize_snapshot}.py "$contents/Resources/"
+cp "$project_dir"/{read_settings,write_settings,write_backup,import_settings,import_rdt,import_qdmr,export_qdmr,cps_basic,cps_dtmf,cps_channel,cps_sections,cps_section_editor,cps_csv,cps_csv_record,rdt_editor,rdt_template,normalize_snapshot}.py "$contents/Resources/"
 python3 -ESB "$project_dir/cps_choices.py" > "$contents/Resources/CPSChoices.json"
 (cd "$project_dir" && python3 -ESB -c 'import json; from cps_dtmf import sequence_section; print(json.dumps(sequence_section(), ensure_ascii=False))') > "$contents/Resources/DTMFBlank.json"
 cp "$project_dir"/CPS-{REFERENCES,COVERAGE}.md "$contents/Resources/"

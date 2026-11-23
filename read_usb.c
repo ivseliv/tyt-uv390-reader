@@ -1,11 +1,21 @@
+#if defined(__linux__) && !defined(_POSIX_C_SOURCE)
+#define _POSIX_C_SOURCE 200809L
+#endif
 #include <libusb.h>
 
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#include <windows.h>
+#else
 #include <time.h>
+#endif
 
 /* USB sequence and codeplug offsets reference qdmr v0.15.1. */
 enum {
@@ -67,9 +77,36 @@ static bool check_length(int result, uint16_t expected, const char *operation)
 
 static void pause_ms(long milliseconds)
 {
+#ifdef _WIN32
+    Sleep((DWORD)milliseconds);
+#else
     struct timespec delay = {.tv_sec = milliseconds / 1000,
                              .tv_nsec = (milliseconds % 1000) * 1000000};
     nanosleep(&delay, NULL);
+#endif
+}
+
+static bool prepare_output(void)
+{
+#ifdef _WIN32
+    /* Windows CRT text mode expands LF bytes in binary codeplug records. */
+    if (_setmode(_fileno(stdout), _O_BINARY) < 0) {
+        perror("binary USB output");
+        return false;
+    }
+#endif
+    return true;
+}
+
+static bool prepare_plan_input(void)
+{
+#ifdef _WIN32
+    if (_setmode(_fileno(stdin), _O_BINARY) < 0) {
+        perror("binary settings plan input");
+        return false;
+    }
+#endif
+    return true;
 }
 
 static bool idle(libusb_device_handle *radio)
@@ -139,7 +176,7 @@ static bool finish_command(libusb_device_handle *radio, const char *label, bool 
 
 enum session_command {
     ENTER_READ_SESSION, REQUEST_MODEL, SELECT_ADDRESS_ZERO,
-    READ_UNIVERSAL_TABLE, END_UNIVERSAL_READ
+    READ_UNIVERSAL_TABLE, REBOOT_RADIO
 };
 
 static bool session_command(libusb_device_handle *radio, enum session_command command)
@@ -149,7 +186,7 @@ static bool session_command(libusb_device_handle *radio, enum session_command co
     unsigned char model[] = {0xa2, 0x01};
     unsigned char address[] = {0x21, 0, 0, 0, 0};
     unsigned char universal_read[] = {0xda, 0x01};
-    unsigned char universal_end[] = {0x91, 0x05};
+    unsigned char reboot[] = {0x91, 0x05};
     unsigned char *payload;
     uint16_t size;
     const char *label;
@@ -166,8 +203,8 @@ static bool session_command(libusb_device_handle *radio, enum session_command co
     case READ_UNIVERSAL_TABLE:
         payload = universal_read; size = sizeof(universal_read); label = "read Universal Privacy";
         break;
-    case END_UNIVERSAL_READ:
-        payload = universal_end; size = sizeof(universal_end); label = "finish Universal Privacy read";
+    case REBOOT_RADIO:
+        payload = reboot; size = sizeof(reboot); label = "finish programming session";
         break;
     default:
         return false;
@@ -176,21 +213,21 @@ static bool session_command(libusb_device_handle *radio, enum session_command co
                                        DFU_INTERFACE, payload, size, TIMEOUT_MS);
     if (!check_length(sent, size, label))
         return false;
-    if (command == END_UNIVERSAL_READ) {
+    if (command == REBOOT_RADIO) {
         /* 91 05 reboots the radio. CPS does not require it to still be
            enumerated after this OUT transfer, which must succeed in full. */
         unsigned char status[6];
         int received = libusb_control_transfer(radio, 0xa1, DFU_GETSTATUS, 0,
                                                 DFU_INTERFACE, status, sizeof(status), TIMEOUT_MS);
         if (received == LIBUSB_ERROR_PIPE || received == LIBUSB_ERROR_NO_DEVICE) {
-            fprintf(stderr, "Universal Privacy: USB interface reset after accepted end command (%s).\n",
+            fprintf(stderr, "USB interface reset after accepted end command (%s).\n",
                     libusb_error_name(received));
             return true;
         }
-        if (!check_length(received, sizeof(status), "finish Universal Privacy read: DFU_GETSTATUS"))
+        if (!check_length(received, sizeof(status), "finish programming session: DFU_GETSTATUS"))
             return false;
         if (status[0] != 0) {
-            fprintf(stderr, "finish Universal Privacy read: DFU status %u.\n", status[0]);
+            fprintf(stderr, "finish programming session: DFU status %u.\n", status[0]);
             return false;
         }
         return true;
@@ -264,7 +301,7 @@ static bool read_universal_metadata(libusb_device_handle *radio, const char *mod
     }
     bool complete = confirmed == UNIVERSAL_BLOCKS;
     if (complete || idle(radio)) {
-        if (!session_command(radio, END_UNIVERSAL_READ)) {
+        if (!session_command(radio, REBOOT_RADIO)) {
             fprintf(stderr, "Universal Privacy: end failed, %zu/%d blocks confirmed.\n", confirmed, UNIVERSAL_BLOCKS);
             complete = false;
         }
@@ -390,7 +427,10 @@ static bool is_normal_mode(libusb_device_handle *radio, uint8_t index)
     return false;
 }
 
-enum read_mode { READ_SETTINGS, DETECT, READ_SETTINGS_WITH_PRIVACY, READ_UNIVERSAL_METADATA };
+#include "stock_write.h"
+
+enum read_mode { READ_SETTINGS, DETECT, READ_SETTINGS_WITH_PRIVACY, READ_UNIVERSAL_METADATA,
+                 READ_WRITE_BASELINE, WRITE_SETTINGS };
 
 static bool run(libusb_device **devices, enum read_mode mode)
 {
@@ -437,7 +477,14 @@ static bool run(libusb_device **devices, enum read_mode mode)
     const char *model = identify(radio);
     if (model) {
         fprintf(stderr, "USB 0483:df11 identified as %s\n", model);
-        if (mode == READ_UNIVERSAL_METADATA)
+        if (mode == READ_WRITE_BASELINE || mode == WRITE_SETTINGS) {
+            unsigned char binding[12];
+            usb_binding(target, binding);
+            if (mode == READ_WRITE_BASELINE)
+                success = read_write_baseline(radio, model, binding);
+            else
+                success = apply_settings(radio, model, binding, stdin);
+        } else if (mode == READ_UNIVERSAL_METADATA)
             success = read_universal_metadata(radio, model);
         else
             success = mode == DETECT || (fwrite(model, 1, 8, stdout) == 8
@@ -451,6 +498,8 @@ close:
 
 int main(int argc, char **argv)
 {
+    if (!prepare_output())
+        return 1;
     enum read_mode mode = READ_SETTINGS;
     if (argc == 2 && strcmp(argv[1], "--detect") == 0)
         mode = DETECT;
@@ -458,11 +507,28 @@ int main(int argc, char **argv)
         mode = READ_SETTINGS_WITH_PRIVACY;
     else if (argc == 2 && strcmp(argv[1], "--universal-privacy") == 0)
         mode = READ_UNIVERSAL_METADATA;
+    else if (argc == 2 && strcmp(argv[1], "--read-write-baseline") == 0)
+        mode = READ_WRITE_BASELINE;
+    else if (argc == 2 && strcmp(argv[1], "--write-settings") == 0)
+        mode = WRITE_SETTINGS;
     else if (argc != 1) {
-        fprintf(stderr, "Usage: %s [--detect | --include-privacy | --universal-privacy]\n", argv[0]);
+        fprintf(stderr, "Usage: %s [--detect | --include-privacy | --universal-privacy | --read-write-baseline | --write-settings]\n", argv[0]);
         return 2;
     }
 
+    if (mode == WRITE_SETTINGS) {
+        if (!prepare_plan_input())
+            return 1;
+        fputs("WRITE_PREFLIGHT\n", stderr);
+        fflush(stderr);
+#ifdef _WIN32
+        /* This thread holds the sleep request until the helper exits. */
+        if (!SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED)) {
+            fprintf(stderr, "Could not prevent system sleep during programming.\n");
+            return 1;
+        }
+#endif
+    }
     libusb_context *context = NULL;
     if (!check_usb(libusb_init(&context), "initialize libusb"))
         return 1;

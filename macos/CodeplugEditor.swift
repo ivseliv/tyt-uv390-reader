@@ -928,6 +928,7 @@ final class CodeplugDraft: ObservableObject {
 
 struct CodeplugEditor: View {
   @ObservedObject var draft: CodeplugDraft
+  let program: (SettingsFile) async throws -> String?
   let save: (SettingsFile, URL) -> Void
   @Environment(\.dismiss) private var dismiss
   private struct Members: Identifiable {
@@ -940,6 +941,7 @@ struct CodeplugEditor: View {
   @State private var discard = false
   @State private var filter = ""
   @State private var exportedSequenceFile: String?
+  @State private var writeNotice: String?
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -1053,12 +1055,28 @@ struct CodeplugEditor: View {
         }.frame(minWidth: 340, maxWidth: .infinity)
       }
       if let error = draft.error { Text(LD(error)).foregroundStyle(.red).textSelection(.enabled) }
+      if let writeNotice { Text(writeNotice).font(.callout).textSelection(.enabled) }
       if let exportedSequenceFile { Text(LF("Сохранена копия DTMF: %@", exportedSequenceFile)).font(.callout).foregroundStyle(.secondary) }
       HStack {
         Button("Закрыть") { if draft.dirty { discard = true } else { dismiss() } }.keyboardShortcut(
           .cancelAction)
         Spacer()
         if draft.saving { ProgressView().controlSize(.small) }
+        if !draft.sequencesOnly && draft.original.writeModel != nil {
+          Button("Записать в рацию…") {
+            do {
+              let current = try draft.materialize()
+              draft.saving = true
+              draft.error = nil
+              writeNotice = nil
+              Task {
+                defer { draft.saving = false }
+                do { writeNotice = try await program(current) }
+                catch { draft.error = error.localizedDescription }
+              }
+            } catch { draft.error = error.localizedDescription }
+          }
+        }
         if draft.table == "section/dtmf_sequences", !draft.sequencesOnly, !draft.canExportRDT {
           Button("Только DTMF в RDT…") { saveCopy(rdt: true, exportSequences: true) }
         }

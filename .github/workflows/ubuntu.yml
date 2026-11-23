@@ -1,0 +1,67 @@
+name: Ubuntu 24.04
+
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
+
+jobs:
+  ubuntu:
+    name: Ubuntu 24.04 ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    env:
+      PACKAGE_ARCH: ${{ matrix.arch }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Install build and test dependencies
+        run: |
+          sudo apt-get -q update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential pkg-config libusb-1.0-0-dev dpkg-dev \
+            python3-tk desktop-file-utils udev xvfb xauth
+
+      - name: Test the editor and simulated USB transport
+        run: xvfb-run -a /usr/bin/python3 -B -m unittest discover -s tests -v
+
+      - name: Build and install the Debian package
+        run: |
+          bash linux/build-deb.sh
+          packages=(dist/ubuntu/tyt-reader_*_"${PACKAGE_ARCH}".deb)
+          test "${#packages[@]}" -eq 1
+          test "$(dpkg-deb --field "${packages[0]}" Package)" = tyt-reader
+          test "$(dpkg-deb --field "${packages[0]}" Architecture)" = "$PACKAGE_ARCH"
+          sudo apt-get install -y "./${packages[0]}"
+          sha256sum "${packages[0]}"
+
+      - name: Check installed desktop entry, USB helper and GUI
+        run: |
+          cd "$RUNNER_TEMP"
+          desktop-file-validate /usr/share/applications/tyt-reader.desktop
+          udevadm verify /usr/lib/udev/rules.d/70-tyt-reader.rules
+          test -x /usr/lib/tyt-reader/read_usb
+          ldd /usr/lib/tyt-reader/read_usb | grep -F 'libusb-1.0.so.0 => /'
+          /usr/bin/tyt-reader --self-test
+          xvfb-run -a /usr/bin/tyt-reader --smoke-ui
+          document="$RUNNER_TEMP/Тест настроек.json"
+          echo '{"channels":[],"contacts":[],"rx_groups":[],"scan_lists":[],"zones":[]}' > "$document"
+          xvfb-run -a /usr/bin/tyt-reader --smoke-ui "$document"
+
+      - name: Upload the Ubuntu package
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: TYT-Reader-Ubuntu-24.04-${{ matrix.arch }}
+          path: dist/ubuntu/tyt-reader_*_${{ matrix.arch }}.deb
+          if-no-files-found: error
+          compression-level: 0

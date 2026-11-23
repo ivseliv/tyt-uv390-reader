@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=TYT Reader
+Comment=Read and edit TYT radio settings
+Comment[ru]=Чтение и редактирование настроек раций TYT
+Comment[zh_CN]=读取和编辑 TYT 对讲机设置
+Exec=tyt-reader %f
+Icon=tyt-reader
+StartupWMClass=TYTReader
+Terminal=false
+Categories=Network;HamRadio;

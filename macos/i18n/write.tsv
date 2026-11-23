@@ -1,0 +1,30 @@
+Записать настройки в рацию…	Write settings to radio…	写入设置到对讲机…
+Записать в рацию…	Write to radio…	写入对讲机…
+Записать в рацию	Write to radio	写入对讲机
+Перед записью программа сравнит настройки и покажет изменения.	Compare the settings with the radio and review the changes before writing.	写入前会比较设置并显示待更改的内容。
+Для записи откройте штатный RDT или полный снимок TYT с моделью и DMR ID.	Open a TYT CPS RDT or a complete TYT snapshot containing the model and DMR ID.	请打开包含型号和 DMR ID 的 TYT CPS RDT 文件或完整的 TYT 快照。
+Не удалось проверить план записи. Повторите сравнение с рацией.	The write plan could not be validated. Compare the settings with the radio again.	无法验证写入计划。请重新比较对讲机设置。
+Не удалось сравнить настройки с рацией.	Could not compare the settings with the radio.	无法与对讲机设置进行比较。
+Не удалось сравнить резервную копию с рацией.	Could not compare the backup with the radio.	无法将备份与对讲机数据进行比较。
+Запись не подтверждена. Заново считайте настройки рации.	The write was not verified. Read the radio settings again.	写入未通过验证。请重新读取对讲机设置。
+Операция записи завершилась с ошибкой.	The write operation ended with an error.	写入操作出错。
+Дождитесь завершения текущей операции.	Wait for the current operation to finish.	请等待当前操作完成。
+Записать настройки в %@?	Write settings to %@?	将设置写入 %@？
+Изменения в рации	Changes to the radio	对讲机上待更改的内容
+DMR ID, группы приёма 1–53, DTMF, ключи Privacy и калибровка исключены из записи.	The DMR ID, receive groups 1–53, DTMF settings, Privacy keys and calibration are excluded from the write.	写入范围不包括 DMR ID、接收组 1–53、DTMF 设置、加密密钥和校准数据。
+Источник: %@	Source: %@	来源：%@
+Секторов флеш-памяти для обновления: %ld.	Flash sectors to update: %ld.	需要更新的闪存扇区数：%ld。
+Резервная копия перед записью: %@	Backup before writing: %@	写入前的备份：%@
+Оставьте рацию подключённой и включённой до окончания проверки.	Keep the radio connected and powered on until verification finishes.	在验证完成前，请保持对讲机开机并连接。
+Рация стирает выбранные секторы перед их перезаписью. При обрыве связи или питания сектор может остаться записанным лишь частично.	The radio erases the selected sectors before rewriting them. A power loss or disconnection can leave a sector partially written.	对讲机会先擦除选定扇区，再重新写入。断电或断开连接可能导致扇区仅写入一部分。
+Запись из TYT Reader на физическую модель 10 Вт с прошивкой D219.043 ещё не проверена.	Writing with TYT Reader has not yet been tested on a physical 10 W radio running D219.043.	TYT Reader 的写入功能尚未在运行 D219.043 固件的 10 W 实机上验证。
+Будут восстановлены изменённые позиции из резервной копии.	Changed entries will be restored from the backup.	将从备份恢复已更改的条目。
+Переносятся заполненные позиции поддерживаемых таблиц. Отсутствующие в документе позиции остаются в рации.	Populated entries in the supported tables will be transferred. Entries absent from the document are kept on the radio.	将写入受支持表中的已填写条目。文档中未列出的条目仍保留在对讲机中。
+Резервная копия перед записью	Backup before writing	写入前备份
+Выберите новое имя. Перед обновлением рации здесь будут сохранены исходные секторы.	Choose a new filename. The original sectors will be saved here before the radio is updated.	请选择新文件名。更新对讲机之前，原扇区将备份到此处。
+Восстановить настройки из резервной копии…	Restore settings from backup…	从备份恢复设置…
+В доступных для записи полях изменений нет.	There are no changes in the writable fields.	可写入字段没有变化。
+Запись проверена повторным чтением. Резервная копия: %@	Write verified by readback. Backup: %@	已重新读取并验证写入内容。备份：%@
+Открытая копия в редакторе	Current editor draft	编辑器中的当前草稿
+Сравниваю настройки с рацией…	Comparing radio settings…	正在比较对讲机设置…
+Записываю и проверяю настройки…	Writing and verifying settings…	正在写入并验证设置…

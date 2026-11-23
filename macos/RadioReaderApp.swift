@@ -122,6 +122,14 @@ struct SettingsFile: Sendable {
     let settings: RadioSettings
     static let openTypes = [UTType.json] + ["rdt", "yaml", "yml", "csv"].compactMap { UTType(filenameExtension: $0) }
 
+    var writeModel: String? {
+        let models = Set([settings.usbModel, settings.fileModel].compactMap { $0 })
+        guard models.count == 1, let model = models.first, ["MD-UV380", "MD-UV390"].contains(model),
+              let id = settings.dmrId, (0...0xFFFFFF).contains(id),
+              settings.rxGroups != nil, settings.scanLists != nil else { return nil }
+        return model
+    }
+
     init(data: Data) throws {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -236,6 +244,39 @@ enum RadioReader {
         let (data, log, status) = try run(executable: usbHelper(), arguments: ["--universal-privacy"])
         try checkUSB(status, log: log)
         return try UniversalUSBReport(data: data)
+    }
+
+    private static func writeFailure(_ title: String, diagnostics: String) -> Failure {
+        let lines = diagnostics.split(whereSeparator: \.isNewline).map { LD(String($0)) }
+        return Failure(([L(title)] + lines).joined(separator: "\n"))
+    }
+
+    static func prepareWrite(file: SettingsFile) throws -> RadioWriteReview {
+        guard let model = file.writeModel else { throw Failure("Для записи откройте штатный RDT или полный снимок TYT с моделью и DMR ID.") }
+        let (data, log, status) = try run(scriptName: "write_settings", arguments: ["prepare", "--reader", try usbHelper().path], input: file.data)
+        guard status == 0 else { throw writeFailure("Не удалось сравнить настройки с рацией.", diagnostics: log) }
+        return try RadioWriteReview(data, expectedModel: model, expectedDMRID: file.settings.dmrId)
+    }
+
+    static func prepareRestore(backup: URL) throws -> RadioWriteReview {
+        let access = backup.startAccessingSecurityScopedResource()
+        defer { if access { backup.stopAccessingSecurityScopedResource() } }
+        let (data, log, status) = try run(scriptName: "write_settings",
+                                          arguments: ["restore-preview", "--backup", backup.path, "--reader", try usbHelper().path])
+        guard status == 0 else { throw writeFailure("Не удалось сравнить резервную копию с рацией.", diagnostics: log) }
+        return try RadioWriteReview(data)
+    }
+
+    static func writeVerified(_ plan: Data, backup: URL) throws {
+        let access = backup.startAccessingSecurityScopedResource()
+        defer { if access { backup.stopAccessingSecurityScopedResource() } }
+        let (_, log, status) = try run(scriptName: "write_settings",
+                                      arguments: ["apply", "--reader", try usbHelper().path, "--backup", backup.path],
+                                      input: plan)
+        guard status == 0 else {
+            let detail = log.isEmpty ? "Запись не подтверждена. Заново считайте настройки рации." : log
+            throw writeFailure("Операция записи завершилась с ошибкой.", diagnostics: detail)
+        }
     }
 
     static func importFile(_ url: URL) throws -> SettingsFile {
@@ -411,12 +452,13 @@ final class ReaderViewModel: ObservableObject {
         }
     }
 
-    enum Activity { case reading, readingUniversal, opening, saving }
+    enum Activity { case reading, readingUniversal, opening, saving, comparing, writing }
 
-    @Published private(set) var snapshot: Snapshot?
-    @Published private(set) var activity: Activity?
+    @Published private(set) var snapshot: Snapshot? { didSet { writeNotice = nil } }
+    @Published private(set) var activity: Activity? { didSet { if activity != nil { writeNotice = nil } } }
     @Published private(set) var error: String?
     @Published private(set) var savedFilename: String?
+    @Published private(set) var writeNotice: String?
     @Published var presentsOpenPanel = false
     @Published var editor: CodeplugDraft?
     @Published var service: LocalService?
@@ -505,6 +547,66 @@ final class ReaderViewModel: ObservableObject {
 
     var canStart: Bool { activity == nil && !presentsOpenPanel && editor == nil && service == nil && universalUSB == nil }
     var canSave: Bool { canStart && snapshot != nil }
+    var canWrite: Bool { canStart && snapshot?.file.writeModel != nil }
+
+    func requestWrite() {
+        guard canWrite, let snapshot else { return }
+        Task {
+            guard canWrite else { return }
+            do {
+                writeNotice = try await programRadio(snapshot.file, source: snapshot.provenance)
+            } catch { self.error = error.localizedDescription }
+        }
+    }
+
+    func programRadio(_ file: SettingsFile, source: String, baseline: SettingsFile? = nil) async throws -> String? {
+        try await reviewWrite(source: source) {
+            let input = try baseline.map { try RadioReader.normalized(baseline: $0, edited: file) } ?? file
+            return try RadioReader.prepareWrite(file: input)
+        }
+    }
+
+    func requestRestore() {
+        guard canStart else { return }
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [UTType(filenameExtension: "tytbackup") ?? .data]
+        panel.title = L("Восстановить настройки из резервной копии…")
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        Task {
+            guard canStart else { return }
+            do {
+                writeNotice = try await reviewWrite(source: url.lastPathComponent, restoring: true) {
+                    try RadioReader.prepareRestore(backup: url)
+                }
+            } catch { self.error = error.localizedDescription }
+        }
+    }
+
+    private func reviewWrite(source: String, restoring: Bool = false, prepare: @escaping @Sendable () throws -> RadioWriteReview) async throws -> String? {
+        guard activity == nil else { throw RadioReader.Failure("Дождитесь завершения текущей операции.") }
+        activity = .comparing
+        error = nil
+        writeNotice = nil
+        savedFilename = nil
+        defer { activity = nil }
+        let review = try await Task.detached(priority: .userInitiated, operation: prepare).value
+        return try await review.applyIfApproved {
+            let panel = NSSavePanel()
+            panel.title = L("Резервная копия перед записью")
+            panel.message = L("Выберите новое имя. Перед обновлением рации здесь будут сохранены исходные секторы.")
+            panel.allowedContentTypes = [UTType(filenameExtension: "tytbackup") ?? .data]
+            panel.nameFieldStringValue = "\(review.summary.model)-\(Int(Date().timeIntervalSince1970)).tytbackup"
+            guard panel.runModal() == .OK, let url = panel.url else { return nil }
+            return review.confirm(source: source, backup: url, restoring: restoring) ? url : nil
+        } write: { data, url in
+            activity = .writing
+            let process = ProcessInfo.processInfo
+            let token = process.beginActivity(options: [.userInitiated, .idleSystemSleepDisabled],
+                                              reason: "TYT USB codeplug programming")
+            defer { process.endActivity(token) }
+            try await Task.detached(priority: .userInitiated) { try RadioReader.writeVerified(data, backup: url) }.value
+        }
+    }
 
     func showOpenPanel() {
         guard canStart else { return }
@@ -604,6 +706,7 @@ final class ReaderViewModel: ObservableObject {
 @main
 struct RadioReaderApp: App {
     @StateObject private var reader = ReaderViewModel()
+    @NSApplicationDelegateAdaptor(RadioLifecycle.self) private var lifecycle
     @State private var language = AppLanguagePreference.choice
 
     private func openGuide(_ name: String) {
@@ -616,6 +719,7 @@ struct RadioReaderApp: App {
         Window("TYT · Настройки рации", id: "reader") {
             ReaderView(reader: reader)
                 .frame(minWidth: 760, minHeight: 460)
+                .onAppear { lifecycle.reader = reader }
         }
         .defaultSize(width: 1120, height: 680)
         .commands {
@@ -664,11 +768,24 @@ struct RadioReaderApp: App {
     }
 }
 
+@MainActor
+private final class RadioLifecycle: NSObject, NSApplicationDelegate {
+    weak var reader: ReaderViewModel?
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        reader?.activity == .writing ? .terminateCancel : .terminateNow
+    }
+}
+
 private struct ServiceActions: View {
     @ObservedObject var reader: ReaderViewModel
 
     var body: some View {
         Group {
+            Button("Записать настройки в рацию…", action: reader.requestWrite)
+                .disabled(!reader.canWrite)
+                .help("Перед записью программа сравнит настройки и покажет изменения.")
+            Button("Восстановить настройки из резервной копии…", action: reader.requestRestore)
+            Divider()
             Button("Последовательности DTMF…") { reader.openDTMF() }
             Divider()
             Button("Basic и Enhanced (USB)…") { reader.service = .usbPrivacy }
@@ -712,6 +829,7 @@ struct ReaderView: View {
                 Spacer()
                 if let activity = reader.activity {
                     if activity == .readingUniversal { Text("Читаю Universal Privacy…").foregroundStyle(.secondary) }
+                    if activity == .comparing || activity == .writing { Text(activityLabel(activity)).foregroundStyle(.secondary) }
                     ProgressView().controlSize(.small)
                         .accessibilityLabel(activityLabel(activity))
                 }
@@ -722,6 +840,9 @@ struct ReaderView: View {
                 .controlSize(.large)
                 .keyboardShortcut(.defaultAction)
                 .disabled(!reader.canStart)
+                Button("Записать в рацию…", action: reader.requestWrite)
+                    .disabled(!reader.canWrite)
+                    .help("Перед записью программа сравнит настройки и покажет изменения.")
             }
 
             if let error = reader.error {
@@ -794,7 +915,10 @@ struct ReaderView: View {
                 EmptyPanel(symbol:"tray",message:emptyMessage)
             }
 
-            if let filename = reader.savedFilename {
+            if let notice = reader.writeNotice {
+                Label(notice, systemImage: "info.circle").font(.callout).textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            } else if let filename = reader.savedFilename {
                 Label(LF("Сохранено: %@", filename), systemImage: "checkmark.circle")
                     .font(.callout)
                     .foregroundStyle(.secondary)
@@ -805,7 +929,10 @@ struct ReaderView: View {
         .padding(18)
         .sheet(isPresented: Binding(get:{ reader.editor != nil },set:{ if !$0 { reader.editor = nil } })) {
             if let draft = reader.editor {
-                CodeplugEditor(draft:draft) { file,url in reader.edited(file,url:url) }
+                CodeplugEditor(draft: draft, program: { file in
+                    try await reader.programRadio(file, source: draft.source?.lastPathComponent ?? L("Открытая копия в редакторе"),
+                                                  baseline: draft.original)
+                }) { file,url in reader.edited(file,url:url) }
             }
         }
         .sheet(item: $reader.service) { service in
@@ -843,6 +970,8 @@ struct ReaderView: View {
         case .readingUniversal: L("Чтение Universal Privacy")
         case .opening: L("Открытие файла")
         case .saving: L("Сохранение файла")
+        case .comparing: L("Сравниваю настройки с рацией…")
+        case .writing: L("Записываю и проверяю настройки…")
         }
     }
 
@@ -851,6 +980,8 @@ struct ReaderView: View {
         case .reading: L("Читаю настройки рации…")
         case .readingUniversal: L("Читаю слоты Universal Privacy…")
         case .opening: L("Открываю файл…")
+        case .comparing: L("Сравниваю настройки с рацией…")
+        case .writing: L("Записываю и проверяю настройки…")
         case .saving, nil: L("Здесь появятся настройки")
         }
     }

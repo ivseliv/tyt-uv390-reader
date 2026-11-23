@@ -1,4 +1,7 @@
 /* Exercise the USB reader against the stock read transaction without a device. */
+#if defined(__linux__) && !defined(_POSIX_C_SOURCE)
+#define _POSIX_C_SOURCE 200809L
+#endif
 #include <assert.h>
 #include <libusb.h>
 
@@ -76,6 +79,10 @@ static int fake_transfer(libusb_device_handle *device, uint8_t dir, uint8_t requ
 int main(int argc, char **argv)
 {
     assert(argc == 2);
+#ifdef _WIN32
+    assert(_setmode(_fileno(stdin), _O_BINARY) >= 0);
+#endif
+    assert(prepare_output());
     scenario = argv[1];
     assert(fread(response, 1, sizeof(response), stdin) == sizeof(response));
     bool ok = read_universal_metadata(NULL, uv390_name);

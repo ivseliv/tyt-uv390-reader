@@ -47,7 +47,8 @@ class RDTEditorTest(unittest.TestCase):
         original = self.original.read_bytes()
         report = self.populate()
         self.assertEqual(self.original.read_bytes(), original)
-        self.assertEqual(self.output.stat().st_mode & 0o777, 0o600)
+        if sys.platform != "win32":  # Windows inherits directory ACLs, not POSIX mode bits.
+            self.assertEqual(self.output.stat().st_mode & 0o777, 0o600)
         self.assertEqual(self.output.read_bytes()[0x420:0x426], b"opaque")
         self.assertEqual(report["zones"][0]["B"], [{"index": 3000, "name": "FM"}])
         self.assertEqual(report["scan_lists"][0]["channels"], [3000, 2810])

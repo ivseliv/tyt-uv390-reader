@@ -1,0 +1,64 @@
+Файл	File	文件
+Создать	New	新建
+Открыть…	Open…	打开…
+Сохранить копию…	Save a copy…	保存副本…
+Закрыть документ	Close document	关闭文档
+Выход	Exit	退出
+Правка	Edit	编辑
+Добавить	Add	添加
+Дублировать	Duplicate	复制记录
+Изменить	Edit	编辑
+Удалить	Delete	删除
+Применить	Apply	应用
+Отмена	Cancel	取消
+Раздел	Section	分类
+Поиск	Search	搜索
+Параметр	Setting	参数
+Значение	Value	值
+Участники	Members	成员
+Новый документ	New document	新文档
+Локальные изменения	Local changes	本地更改
+Отбросить изменения в текущем документе?	Discard changes to the current document?	放弃对当前文档的更改？
+Удалить выбранную запись из локальной копии?	Delete the selected record from the local copy?	从本地副本中删除所选记录？
+Сначала выберите запись.	Select a record first.	请先选择一条记录。
+Все позиции заняты.	All slots are in use.	所有槽位均已占用。
+Неверное значение для поля «%@».	Invalid value for “%@”.	“%@”字段的值无效。
+Индексы через запятую, в порядке следования	Comma-separated slot numbers, in order	按顺序输入槽位编号，以逗号分隔
+Импорт CSV…	Import CSV…	导入 CSV…
+RDT по шаблону…	Save using an RDT template…	使用 RDT 模板保存…
+Сохранить копию RDT…	Save an RDT copy…	保存 RDT 副本…
+Настройки рации	Radio settings	对讲机设置
+Параметры записи	Record fields	记录参数
+Нет записей	No records	无记录
+Открытый файл	Open file	已打开文件
+Временный документ	Unsaved document	未保存文档
+Кодплаги и снимки	Codeplugs and snapshots	配置文件与快照
+Все файлы	All files	所有文件
+Просмотр и редактирование настроек TYT	Viewer and editor for TYT radio settings	TYT 对讲机设置查看与编辑
+Чтение по USB…	Reading over USB…	正在通过 USB 读取…
+Копировать запись	Copy record	复制记录
+Вставить запись	Paste record	粘贴记录
+Частота должна быть положительным числом в МГц.	Enter a positive frequency in MHz.	请输入以 MHz 为单位的正频率。
+Номера слотов должны быть целыми числами.	Slot numbers must be integers.	槽位编号必须为整数。
+Готово	Ready	就绪
+Примечания	Notes	备注
+Файл настроек	Settings file	设置文件
+Скопировано в файл %@	Saved to %@	已保存到 %@
+Экспорт	Export	导出
+Хранилище ключей USB	USB privacy settings	USB 加密设置
+Печать таблицы…	Print table…	打印表格…
+Продолжить без сохранения?	Continue without saving?	不保存并继续？
+Сменить язык	Change language	更改语言
+Системный язык	System language	系统语言
+Индекс Privacy (с нуля)	Privacy index (zero-based)	加密索引（从零开始）
+Сначала откройте файл или считайте настройки.	Open a file or read settings from the radio first.	请先打开文件或从对讲机读取设置。
+Эти данные доступны после чтения по USB.	Read settings over USB to view this data.	通过 USB 读取设置后即可查看这些数据。
+Сохранить DTMF в копию RDT…	Save DTMF to an RDT copy…	将 DTMF 保存到 RDT 副本…
+Не удалось открыть окно печати.	Could not open the print preview.	无法打开打印预览。
+Эта строка доступна только для чтения.	This row is read-only.	此行为只读。
+Недопустимая таблица назначений.	Invalid assignment table.	分配表无效。
+Недопустимая позиция назначения.	Invalid assignment slot.	分配槽位无效。
+Недопустимое действие быстрого доступа.	Invalid one-touch action.	一键操作无效。
+Выберите исходный RDT для переноса настроек.	Choose an RDT template for these settings.	请选择用于导入设置的 RDT 模板。
+Нет доступа к USB. Переподключите включённую рацию после установки правила udev TYT Reader и войдите в локальный сеанс.	USB access denied. Use a local desktop session and reconnect the powered-on radio after installing the TYT Reader udev rule.	USB 访问被拒绝。请登录本地桌面会话，在安装 TYT Reader 的 udev 规则后重新连接已开机的对讲机。
+Служба logind не разрешила блокировку режима сна. Откройте приложение в локальном сеансе Ubuntu.	logind could not inhibit sleep. Open the app from a local Ubuntu desktop session.	logind 无法阻止系统休眠。请在 Ubuntu 的本地桌面会话中打开应用。
