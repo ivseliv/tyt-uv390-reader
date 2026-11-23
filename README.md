@@ -1,8 +1,21 @@
-# TYT MD‑UV390 на macOS — чтение и редактор локальных копий
+# TYT Reader
+
+Программа для чтения и редактирования настроек раций TYT MD‑UV380 и MD‑UV390.
+
+## Скачать TYT Reader 0.7.0
+
+| Система | Процессор | Скачать |
+| --- | --- | --- |
+| macOS 26 и новее | Apple Silicon | [ZIP для macOS](https://github.com/ivseliv/tyt-uv390-reader/releases/download/v0.7.0/TYT-Reader-0.7.0-macOS-arm64.zip) |
+| Windows | Intel или AMD, x64 | [ZIP для Windows](https://github.com/ivseliv/tyt-uv390-reader/releases/download/v0.7.0/TYT-Reader-0.7.0-Windows-x64.zip) |
+| Ubuntu Desktop 24.04 LTS | Intel или AMD, 64 бита | [Пакет .deb для amd64](https://github.com/ivseliv/tyt-uv390-reader/releases/download/v0.7.0/tyt-reader_0.7.0-1_amd64.deb) |
+| Ubuntu Desktop 24.04 LTS | ARM64 | [Пакет .deb для arm64](https://github.com/ivseliv/tyt-uv390-reader/releases/download/v0.7.0/tyt-reader_0.7.0-1_arm64.deb) |
+
+[Инструкции по установке и описание релиза](https://github.com/ivseliv/tyt-uv390-reader/releases/tag/v0.7.0) · [Контрольные суммы SHA-256](https://github.com/ivseliv/tyt-uv390-reader/releases/download/v0.7.0/SHA256SUMS)
 
 ## TYT Reader для macOS
 
-Откройте `dist/TYT Reader.app`. Для работы с файлами кабель не нужен.
+Распакуйте ZIP для macOS и откройте `TYT Reader.app`. При сборке из исходников приложение появится в каталоге `dist/`. Для работы с файлами кабель не нужен.
 
 Язык интерфейса выбирается в меню **Язык / Language / 语言**. Доступны **Русский**, **English**, **简体中文** и системный язык macOS. После выбора завершите приложение (⌘Q) и откройте его снова. Имена из кодплага сохраняются в исходном виде.
 
