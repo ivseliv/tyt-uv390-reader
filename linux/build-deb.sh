@@ -14,6 +14,13 @@ work=$(mktemp -d -- "$destination/.tyt-build.XXXXXXXX")
 trap 'rm -rf -- "$work"' EXIT
 cd -- "$work"
 cp -r -- "$project/linux/debian" debian
+if [[ -n ${TYT_RELEASE_VERSION:-} ]]; then
+    if [[ ! $TYT_RELEASE_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        echo "Expected a numeric TYT release version (X.Y.Z)." >&2
+        exit 2
+    fi
+    sed -Ei "1s/\([^)]*\)/(${TYT_RELEASE_VERSION}-1)/" debian/changelog
+fi
 
 package=tyt-reader
 root="$work/debian/$package"

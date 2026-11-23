@@ -1,6 +1,15 @@
 name: Ubuntu 24.04
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
 
 permissions:
   contents: read
@@ -19,9 +28,10 @@ jobs:
     runs-on: ${{ matrix.runner }}
     env:
       PACKAGE_ARCH: ${{ matrix.arch }}
+      TYT_RELEASE_VERSION: ${{ inputs.version }}
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -42,6 +52,9 @@ jobs:
           test "${#packages[@]}" -eq 1
           test "$(dpkg-deb --field "${packages[0]}" Package)" = tyt-reader
           test "$(dpkg-deb --field "${packages[0]}" Architecture)" = "$PACKAGE_ARCH"
+          if [[ -n "$TYT_RELEASE_VERSION" ]]; then
+            test "$(dpkg-deb --field "${packages[0]}" Version)" = "${TYT_RELEASE_VERSION}-1"
+          fi
           sudo apt-get install -y "./${packages[0]}"
           sha256sum "${packages[0]}"
 
@@ -59,7 +72,7 @@ jobs:
           xvfb-run -a /usr/bin/tyt-reader --smoke-ui "$document"
 
       - name: Upload the Ubuntu package
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: TYT-Reader-Ubuntu-24.04-${{ matrix.arch }}
           path: dist/ubuntu/tyt-reader_*_${{ matrix.arch }}.deb

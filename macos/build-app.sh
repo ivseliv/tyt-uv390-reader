@@ -12,6 +12,13 @@ app="$staging/$app_name"
 contents="$app/Contents"
 mkdir -p "$contents/MacOS" "$contents/Resources" "$contents/Frameworks"
 cp "$project_dir/macos/Info.plist" "$contents/Info.plist"
+if [[ -n ${TYT_RELEASE_VERSION:-} ]]; then
+    if [[ ! $TYT_RELEASE_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        echo "Expected a numeric TYT release version (X.Y.Z)." >&2
+        exit 2
+    fi
+    /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $TYT_RELEASE_VERSION" "$contents/Info.plist"
+fi
 python3 -IB "$project_dir/macos/build-localizations.py" "$contents/Resources"
 icon_source="$project_dir/macos/AppIcon.png"
 iconset="$staging/AppIcon.iconset"

@@ -13,6 +13,8 @@
 
 [Инструкции по установке и описание релиза](https://github.com/ivseliv/tyt-uv390-reader/releases/tag/v0.7.0) · [Контрольные суммы SHA-256](https://github.com/ivseliv/tyt-uv390-reader/releases/download/v0.7.0/SHA256SUMS)
 
+[Актуальный релиз со всеми сборками](https://github.com/ivseliv/tyt-uv390-reader/releases/latest)
+
 ## Ubuntu Desktop 24.04 LTS
 
 Скачайте пакет `.deb` для архитектуры вашей системы. Команда `dpkg --print-architecture` покажет `amd64` (Intel и AMD) или `arm64` (например, Ubuntu в виртуальной машине на Mac с Apple Silicon). В каталоге с загруженным файлом выполните:
@@ -106,3 +108,9 @@ python3 read_settings.py tyt-settings.json
 Если `ioreg -p IOUSB` показывает рацию, а `libusb` её не находит в изолированной среде, запустите команду из обычного Терминала на Mac.
 
 Протокол чтения и расположение полей сверены с [qdmr 0.15.1](https://github.com/hmatuschek/qdmr/tree/v0.15.1/lib), обработка состояния DFU после команды — с [библиотекой editcp](https://github.com/dalefarnsworth-dmr/dfu/blob/v1.0.20/dfu.go). USB-описатель обычного режима сопоставлен с [документацией RadioFoundry](https://radiofoundry.org/docs/spec/hardware-mduv380).
+
+## Выпуск новой версии
+
+Поставьте тег в формате `vX.Y.Z` на коммит с готовыми исходниками и отправьте тег в GitHub. Workflow **TYT Reader Release** берёт номер версии из тега и собирает macOS для Apple Silicon, Windows x64 и Ubuntu 24.04 LTS для amd64 и arm64. Когда все сборки и проверки пройдут, он публикует один GitHub-релиз с четырьмя пакетами и файлом `SHA256SUMS`.
+
+Для проверки комплекта выберите **Actions → TYT Reader Release → Run workflow**. Можно указать тестовый номер версии. Результат появится в артефакте `TYT-Reader-release` этого запуска.

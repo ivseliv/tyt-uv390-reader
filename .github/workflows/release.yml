@@ -1,0 +1,146 @@
+name: TYT Reader Release
+
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to build for verification (X.Y.Z, defaults to the macOS bundle version)
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  version:
+    if: github.event_name == 'workflow_dispatch' || (github.event.created && !github.event.deleted)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: version
+        name: Resolve the release version
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+            version="${GITHUB_REF_NAME#v}"
+          else
+            version="$REQUESTED_VERSION"
+            if [[ -z "$version" ]]; then
+              version="$(python3 -c 'import plistlib; print(plistlib.loads(open("macos/Info.plist", "rb").read())["CFBundleShortVersionString"])')"
+            fi
+          fi
+          if [[ ! "$version" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "Expected a version in the form X.Y.Z." >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+  macos:
+    name: macOS Apple Silicon
+    needs: version
+    runs-on: macos-26
+    timeout-minutes: 25
+    env:
+      TYT_RELEASE_VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install libusb and pkg-config
+        run: brew install libusb pkgconf
+      - name: Test and build the macOS app
+        run: |
+          test "$(uname -m)" = arm64
+          python3 -B -m unittest discover -s tests -q
+          bash macos/build-app.sh
+      - name: Verify and archive the signed application
+        run: |
+          zip="dist/TYT-Reader-${TYT_RELEASE_VERSION}-macOS-arm64.zip"
+          ditto -c -k --keepParent --norsrc 'dist/TYT Reader.app' "$zip"
+          ditto -x -k "$zip" "$RUNNER_TEMP/tyt-app"
+          app="$RUNNER_TEMP/tyt-app/TYT Reader.app"
+          test "$(lipo -archs "$app/Contents/MacOS/TYTReader")" = arm64
+          test "$(lipo -archs "$app/Contents/MacOS/read_usb")" = arm64
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist")" = "$TYT_RELEASE_VERSION"
+          codesign --verify --deep --strict "$app"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: TYT-Reader-macOS-arm64
+          path: dist/TYT-Reader-*-macOS-arm64.zip
+          if-no-files-found: error
+          compression-level: 0
+
+  windows:
+    needs: version
+    uses: ./.github/workflows/windows.yml
+
+  ubuntu:
+    needs: version
+    uses: ./.github/workflows/ubuntu.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+
+  assemble:
+    name: Assemble release downloads
+    needs: [version, macos, windows, ubuntu]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          path: downloads
+      - name: Gather the four packages and compute SHA-256
+        run: |
+          mkdir release
+          cp "downloads/TYT-Reader-macOS-arm64/TYT-Reader-${VERSION}-macOS-arm64.zip" release/
+          cp downloads/TYT-Reader-Windows-x64/TYT-Reader-Windows-x64.zip "release/TYT-Reader-${VERSION}-Windows-x64.zip"
+          for arch in amd64 arm64; do
+            package="tyt-reader_${VERSION}-1_${arch}.deb"
+            cp "downloads/TYT-Reader-Ubuntu-24.04-${arch}/$package" release/
+          done
+          cd release
+          sha256sum -- *.zip *.deb > SHA256SUMS
+          sha256sum --check SHA256SUMS
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: TYT-Reader-release
+          path: release/
+          if-no-files-found: error
+          compression-level: 0
+
+  publish:
+    name: Publish GitHub release
+    needs: [version, assemble]
+    if: github.event_name == 'push' && github.ref_type == 'tag' && github.event.created
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: TYT-Reader-release
+          path: release
+      - name: Publish the complete release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.version.outputs.version }}
+        run: bash .github/scripts/publish-release.sh release
