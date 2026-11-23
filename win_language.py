@@ -23,7 +23,15 @@ def formatted(template, args):
 
 def system_language():
     language = locale.getlocale()[0] or ""
-    if os.name == "nt":
+    if sys.platform == "linux":
+        # LC_MESSAGES and LANGUAGE can differ from the numeric or keyboard locale.
+        language = os.environ.get("LC_ALL") or os.environ.get("LC_MESSAGES") or os.environ.get("LANG") or language
+        if language not in ("C", "POSIX"):
+            for candidate in (os.environ.get("LANGUAGE", "") + ":" + language).split(":"):
+                prefix = re.split(r"[-_.@]", candidate.lower())[0]
+                if prefix in ("ru", "en", "zh"):
+                    return "zh-Hans" if prefix == "zh" else prefix
+    elif os.name == "nt":
         import ctypes
         name = ctypes.create_unicode_buffer(85)
         if ctypes.windll.kernel32.GetUserDefaultLocaleName(name, len(name)):
@@ -34,7 +42,12 @@ def system_language():
 
 class Language:
     def __init__(self, choice=None):
-        config_dir = Path(os.environ.get("LOCALAPPDATA") or Path.home() / ".config") / "TYT Reader"
+        if sys.platform == "linux":
+            xdg_config = Path(os.environ.get("XDG_CONFIG_HOME", ""))
+            base = xdg_config if xdg_config.is_absolute() else Path.home() / ".config"
+        else:
+            base = Path(os.environ.get("LOCALAPPDATA") or Path.home() / ".config")
+        config_dir = base / "TYT Reader"
         self.config = config_dir / "language.json"
         if choice is None:
             try:

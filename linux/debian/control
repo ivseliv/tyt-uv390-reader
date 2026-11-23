@@ -1,0 +1,15 @@
+Source: tyt-reader
+Section: hamradio
+Priority: optional
+Maintainer: TYT Reader contributors <ivseliv@users.noreply.github.com>
+Build-Depends: dpkg-dev, gcc, libc6-dev, libusb-1.0-0-dev, pkg-config
+Homepage: https://github.com/ivseliv/tyt-uv390-reader
+Rules-Requires-Root: no
+
+Package: tyt-reader
+Architecture: any
+Depends: ${shlibs:Depends}, python3 (>= 3.10), python3-tk, systemd, udev
+Description: Desktop codeplug editor for TYT MD-UV380 and MD-UV390 radios
+ Read channels, contacts, zones, RX groups and scan lists over USB or from
+ codeplug files. Review settings changes, keep a local backup and verify
+ programmed sectors by reading them back.

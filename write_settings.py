@@ -116,24 +116,40 @@ def proposal_from_blocks(model, binding, before, after, changes=None):
             "plan": base64.b64encode(result).decode("ascii")}
 
 
+class SleepInhibitError(Exception):
+    """logind refused the sleep inhibitor before the radio helper started."""
+
+
 def _run_helper(mode, *, helper=None, data=None):
+    inhibit_sleep = sys.platform == "linux" and helper is None and mode == "--write-settings"
     if helper is None:
-        if os.name == "nt":
+        if os.name == "nt" or sys.platform == "linux":
             from win_document import _helper_path
             helper = _helper_path()
         else:
             helper = Path(__file__).with_name("read_usb")
+    command = [str(Path(helper).resolve()), mode]
+    if inhibit_sleep:
+        command = ["/usr/bin/systemd-inhibit", "--what=idle:sleep", "--mode=block", "--who=TYT Reader",
+                   "--why=Writing and verifying radio settings", "--", *command]
     # A wall-clock timeout killing the helper after an erase could leave the radio
     # partially programmed. The native transport bounds each transfer instead.
-    return subprocess.run([str(Path(helper).resolve()), mode], input=data, capture_output=True,
-                          stdin=subprocess.DEVNULL if data is None else None,
-                          creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+    result = subprocess.run(command, input=data, capture_output=True,
+                            stdin=subprocess.DEVNULL if data is None else None,
+                            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+    if inhibit_sleep and result.returncode and b"WRITE_" not in result.stderr:
+        if result.stderr.startswith((b"Failed to inhibit:", b"Failed to connect to bus", b"Failed to connect to system")):
+            raise SleepInhibitError()
+    return result
 
 
 def read_baseline(helper=None):
     result = _run_helper("--read-write-baseline", helper=helper)
     if result.returncode:
         log = result.stderr.decode("utf-8", "replace").strip()
+        if sys.platform == "linux":
+            from win_document import usb_read_error
+            raise ValueError(usb_read_error(log))
         raise ValueError(log[-2048:] or "Не удалось выполнить операцию с кодплагом рации.")
     return decode_baseline(result.stdout)
 
@@ -301,6 +317,9 @@ def apply(proposal, *, backup, helper=None):
     affected = sorted({addr // SECTOR * SECTOR for addr in ADDRESSES if before[addr] != after[addr]})
     try:
         result = _run_helper("--write-settings", helper=helper, data=raw)
+    except SleepInhibitError as exc:
+        raise ValueError("Служба logind не разрешила блокировку режима сна. Откройте приложение в локальном сеансе Ubuntu.\n"
+                         f"Компонент записи не запустился. Резервная копия: {saved}") from exc
     except (FileNotFoundError, PermissionError) as exc:
         raise ValueError(f"Компонент записи не запустился. Резервная копия: {saved}") from exc
     except (OSError, subprocess.SubprocessError) as exc:

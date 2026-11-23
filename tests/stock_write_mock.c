@@ -1,5 +1,8 @@
 /* Memory-backed model of the stock sector erase/program interface.
    Even if a production address check regresses, this executable has no USB path. */
+#if defined(__linux__) && !defined(_POSIX_C_SOURCE)
+#define _POSIX_C_SOURCE 200809L
+#endif
 #include <assert.h>
 #include <libusb.h>
 static int fake_transfer(libusb_device_handle *, uint8_t, uint8_t, uint16_t, uint16_t,

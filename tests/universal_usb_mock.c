@@ -1,4 +1,7 @@
 /* Exercise the USB reader against the stock read transaction without a device. */
+#if defined(__linux__) && !defined(_POSIX_C_SOURCE)
+#define _POSIX_C_SOURCE 200809L
+#endif
 #include <assert.h>
 #include <libusb.h>
 

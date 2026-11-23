@@ -1,4 +1,4 @@
-"""File and stock USB operations for the Windows interface. No device writes."""
+"""Local files and stock USB reads for the Tk interface."""
 
 import copy
 import json
@@ -199,8 +199,10 @@ def _helper_path():
     root = Path(__file__).resolve().parent
     if getattr(sys, "frozen", False):
         folders = (Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent)), Path(sys.executable).parent)
-    else:
+    elif os.name == "nt":
         folders = (root / "windows" / "bin", root / "windows", root)
+    else:
+        folders = (root,)
     filename = "read_usb.exe" if os.name == "nt" else "read_usb"
     for folder in folders:
         candidate = folder / filename
@@ -217,12 +219,18 @@ def _usb_read(mode, helper):
                             timeout=120, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
     if result.returncode:
         log = result.stderr.decode("utf-8", errors="replace").strip()
-        if "USB 0483:df11 not found" in log:
-            raise ValueError("Рация не обнаружена. Проверьте USB-кабель и питание рации.")
-        if "Found multiple USB" in log:
-            raise ValueError("Подключите только одну рацию и повторите чтение.")
-        raise ValueError(log[:1000] or "Считать данные по USB не удалось.")
+        raise ValueError(usb_read_error(log))
     return result.stdout
+
+
+def usb_read_error(log):
+    if sys.platform == "linux" and "LIBUSB_ERROR_ACCESS" in log:
+        return "Нет доступа к USB. Переподключите включённую рацию после установки правила udev TYT Reader и войдите в локальный сеанс."
+    if "USB 0483:df11 not found" in log:
+        return "Рация не обнаружена. Проверьте USB-кабель и питание рации."
+    if "Found multiple USB" in log:
+        return "Подключите только одну рацию и повторите чтение."
+    return log[:1000] or "Считать данные по USB не удалось."
 
 
 def read_universal_usb(helper=None):
@@ -244,7 +252,7 @@ def read_universal_usb(helper=None):
 
 
 class Document:
-    """Editable Windows document. Use draft() for edits and commit them through apply()."""
+    """Editable Tk document. Use draft() for edits and commit them through apply()."""
 
     def __init__(self, report, source=None, usb_privacy=None):
         _check_snapshot(report)

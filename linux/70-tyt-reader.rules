@@ -1,0 +1,2 @@
+# Stock TYT programming interface in normal mode. logind grants the active local user access.
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="0483", ATTR{idProduct}=="df11", ATTR{product}=="Digital Radio in USB mode", TAG+="uaccess"

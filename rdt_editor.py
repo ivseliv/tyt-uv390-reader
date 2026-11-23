@@ -396,16 +396,24 @@ def publish_new(staged, output):
         os.link(staged, output)
         return
     except OSError as error:
-        if sys.platform != "darwin" or error.errno not in {
-            errno.EPERM, errno.ENOTSUP, errno.EOPNOTSUPP, errno.ENOSYS,
-        }:
+        if error.errno not in {errno.EPERM, errno.ENOTSUP, errno.EOPNOTSUPP, errno.ENOSYS}:
             raise
-    # FAT and exFAT do not provide hard links. macOS extends rename with a kernel-level
-    # no-overwrite flag, so another exporter winning the race never loses its output.
-    rename_exclusive = ctypes.CDLL(None, use_errno=True).renamex_np
-    rename_exclusive.argtypes = (ctypes.c_char_p, ctypes.c_char_p, ctypes.c_uint)
-    rename_exclusive.restype = ctypes.c_int
-    if rename_exclusive(os.fsencode(staged), os.fsencode(output), 0x00000004) == -1:  # RENAME_EXCL
+        # FAT and exFAT lack hard links. Publish with the OS's atomic
+        # no-replace operation so a concurrent save can never be overwritten.
+        libc = ctypes.CDLL(None, use_errno=True)
+        source, target = os.fsencode(staged), os.fsencode(output)
+        if sys.platform == "linux" and hasattr(libc, "renameat2"):
+            rename = libc.renameat2
+            rename.argtypes = (ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint)
+            at_fdcwd, rename_noreplace = -100, 1
+            result = rename(at_fdcwd, source, at_fdcwd, target, rename_noreplace)
+        elif sys.platform == "darwin":
+            rename = libc.renamex_np
+            rename.argtypes = (ctypes.c_char_p, ctypes.c_char_p, ctypes.c_uint)
+            result = rename(source, target, 0x00000004)  # RENAME_EXCL
+        else:
+            raise
+    if result == -1:
         code = ctypes.get_errno()
         raise OSError(code, os.strerror(code), str(output))
 

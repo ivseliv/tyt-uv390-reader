@@ -1,7 +1,8 @@
-"""TYT Reader for Windows. USB programming is a separate, explicitly confirmed action."""
+"""TYT Reader desktop interface for Windows and Ubuntu."""
 import argparse
 import copy
 import queue
+import sys
 import tempfile
 import threading
 import weakref
@@ -88,7 +89,7 @@ def offline_check():
 
 def open_gui(smoke=False, initial=None):
     import tkinter as tk
-    from tkinter import filedialog, messagebox, ttk
+    from tkinter import filedialog, font, messagebox, ttk
     import win_services
 
     class ReaderWindow:
@@ -179,7 +180,8 @@ def open_gui(smoke=False, initial=None):
             frame.pack(fill="both", expand=True)
             bar = ttk.Frame(frame)
             bar.pack(fill="x", pady=(0, 10))
-            ttk.Label(bar, text="TYT MD-UV390", font=("Segoe UI", 16, "bold")).pack(side="left", padx=(0, 18))
+            family = font.nametofont("TkDefaultFont").actual("family") if sys.platform == "linux" else "Segoe UI"
+            ttk.Label(bar, text="TYT MD-UV390", font=(family, 16, "bold")).pack(side="left", padx=(0, 18))
             self.buttons = {}
             for key, fn in [("Считать настройки", self.read), ("Записать в рацию…", self.write_radio), ("Открыть файл…", self.open_file),
                             ("Сохранить JSON…", self.save)]:
@@ -198,7 +200,7 @@ def open_gui(smoke=False, initial=None):
             self.nav.bind("<<TreeviewSelect>>", self.pick_section)
             tools = ttk.Frame(right)
             tools.pack(fill="x", pady=(0, 6))
-            self.section_title = ttk.Label(tools, font=("Segoe UI", 12, "bold"))
+            self.section_title = ttk.Label(tools, font=(family, 12, "bold"))
             self.section_title.pack(side="left")
             ttk.Entry(tools, textvariable=self.query, width=22).pack(side="right")
             ttk.Label(tools, text=tr("Поиск")).pack(side="right", padx=5)
@@ -371,7 +373,7 @@ def open_gui(smoke=False, initial=None):
 
         def choose(self, extensions):
             return filedialog.askopenfilename(parent=self.root,
-                filetypes=[(self.tr("Файл настроек"), " ".join("*." + ext for ext in extensions)), (self.tr("Все файлы"), "*.*")])
+                filetypes=[(self.tr("Файл настроек"), " ".join("*." + ext for ext in extensions)), (self.tr("Все файлы"), "*")])
 
         def open_file(self):
             path = self.choose(("json", "rdt", "yaml", "yml", "csv"))
@@ -560,7 +562,10 @@ def open_gui(smoke=False, initial=None):
                         html.append(cells("td", [self.tr.generated(f["label"]), value]))
                 html.append("</table>")
             if self.print_folder is None:
-                self.print_folder = tempfile.TemporaryDirectory(prefix="tyt-print-")
+                # Ubuntu's snapped browsers have a private /tmp. A private,
+                # non-hidden directory under HOME is visible to the browser.
+                home = Path.home() if sys.platform == "linux" else None
+                self.print_folder = tempfile.TemporaryDirectory(prefix="tyt-print-", dir=home)
             with tempfile.NamedTemporaryFile(dir=self.print_folder.name, suffix=".html", delete=False, mode="w", encoding="utf-8") as f:
                 f.write("\n".join(html))
             if not webbrowser.open(Path(f.name).as_uri()):
@@ -737,10 +742,16 @@ def open_gui(smoke=False, initial=None):
             ttk.Button(buttons, text=tr("Отмена"), command=dialog.destroy).pack(side="right")
             dialog.bind("<Escape>", lambda e: dialog.destroy())
 
-    root = tk.Tk()
+    root = tk.Tk(className="TYTReader")
     if smoke:
         root.withdraw()
     app = ReaderWindow(root)
+    if initial:
+        if smoke:
+            app.set_doc(Document.open(initial))
+            assert app.doc.source == Path(initial).absolute()
+        else:
+            app.run(lambda: app.set_doc(Document.open(initial)))
     if smoke:
         app.new()
         assert app.buttons["Записать в рацию…"].instate(["disabled"])
@@ -749,13 +760,11 @@ def open_gui(smoke=False, initial=None):
         assert app.table.get_children() and app.section == "cps:dtmf_sequences"
         root.destroy()
     else:
-        if initial:
-            app.run(lambda: app.set_doc(Document.open(initial)))
         root.mainloop()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="TYT Reader for Windows")
+    parser = argparse.ArgumentParser(description="TYT Reader for Windows and Ubuntu")
     parser.add_argument("file", nargs="?")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--self-test", action="store_true")
